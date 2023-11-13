@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.core.content.ContextCompat;
 import androidx.gridlayout.widget.GridLayout;
@@ -68,6 +69,24 @@ public class GameActivity extends AppCompatActivity {
 
 
         buttons[4][6].setText("9");
+
+        LinearLayout sudokuInput = findViewById(R.id.sudoku_linput);
+        for (int i = 0; i < 9; i++)
+        {
+            Button button = new Button(this);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(9, 1, 1f);
+            params.width = 0;
+            params.height = -1;
+
+            params.setMargins(0, 0, 0, 0);
+
+            button.setPadding(0, 0, 0 ,0);
+            button.setLayoutParams(params);
+            button.setBackground(ContextCompat.getDrawable(this, R.drawable.border));
+            button.setText(Integer.toString(i + 1));
+
+            sudokuInput.addView(button);
+        }
 
     }
 
