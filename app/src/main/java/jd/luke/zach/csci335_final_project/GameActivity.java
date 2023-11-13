@@ -13,6 +13,7 @@ import android.widget.Button;
 import androidx.core.content.ContextCompat;
 import androidx.gridlayout.widget.GridLayout;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class GameActivity extends AppCompatActivity {
@@ -29,6 +30,8 @@ public class GameActivity extends AppCompatActivity {
 
         GridLayout sudokuGrid = findViewById(R.id.sudoku_grid);
 
+        Button[][] buttons = new Button[9][9];
+
         for (int row = 0; row < 9; row++)
         {
             for (int col = 0; col < 9; col++)
@@ -44,11 +47,15 @@ public class GameActivity extends AppCompatActivity {
                 button.setPadding(0, 0, 0, 0);
                 button.setLayoutParams(params);
                 button.setBackground(ContextCompat.getDrawable(this, R.drawable.border));
+                button.setText("4");
 
                 sudokuGrid.addView(button);
+                buttons[row][col] = button;
             }
         }
 
+
+        buttons[4][6].setText("9");
 
     }
 
