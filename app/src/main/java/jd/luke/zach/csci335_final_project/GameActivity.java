@@ -1,9 +1,11 @@
 package jd.luke.zach.csci335_final_project;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,7 +15,6 @@ import android.widget.Button;
 import androidx.core.content.ContextCompat;
 import androidx.gridlayout.widget.GridLayout;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class GameActivity extends AppCompatActivity {
@@ -32,10 +33,8 @@ public class GameActivity extends AppCompatActivity {
 
         Button[][] buttons = new Button[9][9];
 
-        for (int row = 0; row < 9; row++)
-        {
-            for (int col = 0; col < 9; col++)
-            {
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
                 Button button = new Button(this);
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams();
                 params.width = 0;
@@ -43,10 +42,23 @@ public class GameActivity extends AppCompatActivity {
                 params.rowSpec = GridLayout.spec(row, 1f);
                 params.columnSpec = GridLayout.spec(col, 1f);
                 params.setMargins(0, 0, 0, 0);
-
                 button.setPadding(0, 0, 0, 0);
                 button.setLayoutParams(params);
-                button.setBackground(ContextCompat.getDrawable(this, R.drawable.border));
+                // nightmare setting buttons to have thick borders at the right spots
+                if((row == 2 && col == 3) || (row == 2 && col == 6) || (row == 5 && col == 3)
+                || (row == 5 && col == 6)) { // if it's at an intersection for thick lines
+                    button.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_thick_border_left_bottom));
+                }
+                else if(row == 2 || row == 5) {
+                    button.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_thick_border_bottom));
+                }
+                else if(col == 3 || col == 6) {
+                    button.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_thick_border_left));
+                }
+                else {
+                    button.setBackground(ContextCompat.getDrawable(this, R.drawable.border));
+                }
+
                 button.setText("4");
 
                 sudokuGrid.addView(button);
@@ -58,6 +70,7 @@ public class GameActivity extends AppCompatActivity {
         buttons[4][6].setText("9");
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

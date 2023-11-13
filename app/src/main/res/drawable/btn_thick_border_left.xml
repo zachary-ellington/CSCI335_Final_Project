@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Main background color of the button -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF"/> <!-- Set your button's background color -->
+        </shape>
+    </item>
+
+    <!-- Top, Left, and Right borders (normal thickness) -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#00000000"/> <!-- Transparent fill -->
+            <stroke
+                android:width="1dp"
+                android:color="#000000"/> <!-- Set border color and thickness -->
+        </shape>
+    </item>
+
+    <!-- Left border (thicker) -->
+    <item android:top="-2dp" android:right="-2dp" android:bottom="-2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#00000000"/> <!-- Transparent fill -->
+            <stroke
+                android:width="3dp"
+                android:color="#000000"/> <!-- Set thicker bottom border -->
+        </shape>
+    </item>
+</layer-list>
