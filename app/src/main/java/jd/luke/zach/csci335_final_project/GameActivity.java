@@ -1,12 +1,17 @@
 package jd.luke.zach.csci335_final_project;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+
+import androidx.core.content.ContextCompat;
+import androidx.gridlayout.widget.GridLayout;
 
 import java.util.Objects;
 
@@ -21,6 +26,30 @@ public class GameActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Game");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        GridLayout sudokuGrid = findViewById(R.id.sudoku_grid);
+
+        for (int row = 0; row < 9; row++)
+        {
+            for (int col = 0; col < 9; col++)
+            {
+                Button button = new Button(this);
+                GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+                params.width = 0;
+                params.height = 0;
+                params.rowSpec = GridLayout.spec(row, 1f);
+                params.columnSpec = GridLayout.spec(col, 1f);
+                params.setMargins(0, 0, 0, 0);
+
+                button.setPadding(0, 0, 0, 0);
+                button.setLayoutParams(params);
+                button.setBackground(ContextCompat.getDrawable(this, R.drawable.border));
+
+                sudokuGrid.addView(button);
+            }
+        }
+
+
     }
 
     @Override
