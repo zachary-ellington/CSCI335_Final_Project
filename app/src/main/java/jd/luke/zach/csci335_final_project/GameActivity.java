@@ -4,8 +4,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.Menu;
@@ -30,14 +32,26 @@ public class GameActivity extends AppCompatActivity {
     public void setCurrentCell(Button btn) {
         currentCell = btn;
     }
-
     Button[][] buttons = new Button[9][9];
+    ArrayList<Button> allForStyles = new ArrayList<>();
+    ArrayList<String[][]> puzzles = new ArrayList<>();
     HashMap<Button, ArrayList<Integer>> btnmap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        puzzles.add(new String[][]{
+                {"4", "9", "0", "6", "7", "1", "0", "3", "0"},
+                {"0", "0", "0", "4", "0", "2", "8", "0", "0"},
+                {"5", "0", "0", "9", "0", "0", "0", "7", "0"},
+                {"1", "0", "4", "5", "0", "0", "0", "0", "0"},
+                {"0", "0", "9", "0", "0", "0", "1", "0", "0"},
+                {"0", "3", "0", "0", "1", "0", "0", "0", "7"},
+                {"0", "0", "0", "7", "0", "9", "2", "0", "5"},
+                {"0", "0", "0", "2", "0", "0", "0", "1", "6"},
+                {"9", "2", "0", "0", "0", "5", "0", "4", "0"},
+        });
 
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
@@ -82,8 +96,10 @@ public class GameActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) { // onclick listener for cells
                         Button clickedCell = (Button) v;
+                        if(getCurrentCell() == null)
+                            setCurrentCell(clickedCell);
+                        setClickedCellStyle(clickedCell);
                         setCurrentCell(clickedCell);
-                        setClickedCellStyle();
                     }
                 }); // to set color: button.setTextColor(getResources().getColor(R.color.primary));
                 sudokuGrid.addView(button);
@@ -116,23 +132,39 @@ public class GameActivity extends AppCompatActivity {
 
             sudokuInput.addView(button);
         }
-        buttons[0][4].setText("9");
+        fillBoard();
+    }
+
+    public void fillBoard() {
+        String[][] currentpuzzle = puzzles.get(0);
+        for(int i = 0; i < 9; i++) {
+            for(int j = 0; j < 9; j++) {
+                if(currentpuzzle[i][j] != "0") {
+                    buttons[i][j].setText((String) currentpuzzle[i][j]);
+                    buttons[i][j].setTextColor(getColor(R.color.text));
+                }
+                else {
+                    buttons[i][j].setText((String) "");
+                }
+
+            }
+        }
     }
 
     public void inputGiven(Button btn) { // takes whatever the user clicked for inputting
         Button cell = getCurrentCell();
-
-        if(cell.getText() == btn.getText()) { // allow for removal of numbers
-            cell.setText("");
-            return;
-        }
-        else {
-            boolean correct = checkConflicts((String)btn.getText());
-            setValueStyle(correct);
-            if(!correct && mistakes >= 3) {
-                startGameOver(getCurrentCell()); // takes a placeholder rn
+        if(cell.getCurrentTextColor() != getColor(R.color.text)) {  // this if statement avoids replacing fixed puzzle numbers
+            if (cell.getText() == btn.getText()) { // allow for removal of numbers
+                cell.setText("");
+                return;
+            } else {
+                boolean correct = checkConflicts((String) btn.getText());
+                setValueStyle(correct);
+                if (!correct && mistakes >= 3) {
+                    startGameOver(getCurrentCell()); // takes a placeholder rn
+                }
+                cell.setText(btn.getText());
             }
-            cell.setText(btn.getText());
         }
 
     }
@@ -149,45 +181,65 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    public void setClickedCellStyle() { // for setting styles for selected cell and
+    public void setClickedCellStyle(Button clickedCell) { // for setting styles for selected cell and
         // cells in the same row and column when a cell is selected
+//        if(!allForStyles.isEmpty()) {
+//            for(Button i : allForStyles) {
+//                System.out.println("We cleared " + i);
+//                i.getBackground().clearColorFilter();
+//            }
+//        }
+
+        // clear the highlighting from each of them
+        getCurrentCell().getBackground().clearColorFilter();
+//        for(Button i : allForStyles) {
+//            System.out.println("We cleared " + i);
+//            i.getBackground().clearColorFilter();
+//        }
+
+        // set highlighting for each cell
+        clickedCell.getBackground().setColorFilter(ContextCompat.getColor(GameActivity.this,
+                R.color.background), PorterDuff.Mode.MULTIPLY);
+//        for(Button i : allForStyles) {
+//            if(i != null) {
+//                i.getBackground().setColorFilter(ContextCompat.getColor(GameActivity.this,
+//                        R.color.background), PorterDuff.Mode.MULTIPLY);
+//            }
+//        }
+
 
     }
 
     public boolean checkConflicts(String val) { // loop through cells to get conflicts
         // takes in the value of input to check other cells against
-        Button btn = getCurrentCell();
-        int row = btnmap.get(btn).get(0);
-        int col = btnmap.get(btn).get(1);
-
-        for(int i = 0; i < 9; i++) {
-            if(i != row && buttons[i][col].getText().equals(val)) { // check column for repeats
-                //we found a conflict
+        ArrayList<Button> all = getSameRCS();
+        for(int i = 0; i < all.size(); i++) {
+            if(all.get(i).getText().equals(val)) {
                 System.out.println("wrong");
                 mistakes++;
                 return false;
-            }
-        }
-        for(int i = 0; i < 9; i++) {
-            if(i != col && buttons[row][i].getText().equals(val)) { // check row for repeats
-                //we found a conflict
-                System.out.println("wrong");
-                mistakes++;
-                return false;
-            }
-        }
-
-        for(int i = 0; i < 3; i++) {
-            for(int j = 0; j < 3; j++) {
-                if(buttons[(3 * (row/3) + i)][(3 * (col/3) + j)].getText().equals(val)) {
-                    System.out.println("wrong");
-                    mistakes++;
-                    return false;
-                }
             }
         }
 
         return true;
+    }
+
+    public ArrayList<Button> getSameRCS() { // gets all the buttons in the same row, column, and square for a clicked cell
+        ArrayList<Button> result = new ArrayList<>();
+        Button btn = getCurrentCell();
+        int row = btnmap.get(btn).get(0);
+        int col = btnmap.get(btn).get(1);
+        for(int i = 0; i < 9; i++) { // adding all buttons in row and column
+            result.add(buttons[row][i]);
+            result.add(buttons[i][col]);
+        }
+        for(int i = 0; i < 3; i++) { // adding all buttons in square
+            for (int j = 0; j < 3; j++) {
+                result.add(buttons[(3 * (row/3) + i)][(3 * (col/3) + j)]);
+            }
+        }
+
+        return result;
     }
 
 
