@@ -177,6 +177,16 @@ public class GameActivity extends AppCompatActivity {
             }
         }
 
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                if(buttons[(3 * (row/3) + i)][(3 * (col/3) + j)].getText().equals(val)) {
+                    System.out.println("wrong");
+                    mistakes++;
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
