@@ -13,6 +13,7 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -60,7 +61,6 @@ public class GameActivity extends AppCompatActivity {
 
         GridLayout sudokuGrid = findViewById(R.id.sudoku_grid);
 
-
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
                 Button button = new Button(this);
@@ -107,6 +107,14 @@ public class GameActivity extends AppCompatActivity {
             }
         }
 
+        ViewGroup.LayoutParams grid_params = sudokuGrid.getLayoutParams();
+        int grid_size = sudokuGrid.getMeasuredWidth() < sudokuGrid.getMeasuredHeight() ? sudokuGrid.getMeasuredWidth() : sudokuGrid.getMeasuredHeight();
+
+        grid_params.width = grid_size;
+        grid_params.height = grid_size;
+
+        sudokuGrid.setLayoutParams(grid_params);
+
 
         LinearLayout sudokuInput = findViewById(R.id.sudoku_linput);
         for (int i = 0; i < 9; i++) {
@@ -119,8 +127,9 @@ public class GameActivity extends AppCompatActivity {
 
             button.setPadding(0, 0, 0, 0);
             button.setLayoutParams(params);
-            button.setBackground(ContextCompat.getDrawable(this, R.drawable.border));
+            button.setBackground(ContextCompat.getDrawable(this, R.drawable.plain_background));
             button.setText(Integer.toString(i + 1));
+            button.setTextColor(getColor(R.color.text));
 
             button.setOnClickListener(new View.OnClickListener() {
                 @Override

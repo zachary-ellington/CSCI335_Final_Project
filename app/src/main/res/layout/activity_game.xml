@@ -21,18 +21,20 @@
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/sudoku_grid"
         android:layout_width="0dp"
-        android:layout_height="380dp"
+        android:layout_height="0dp"
         android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/grid_border"
         android:padding="3dp"
         app:columnCount="9"
         app:layout_constraintBottom_toTopOf="@+id/sudoku_linput"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.0"
         app:rowCount="9">
 
     </androidx.gridlayout.widget.GridLayout>
@@ -40,15 +42,14 @@
     <LinearLayout
         android:id="@+id/sudoku_linput"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:orientation="horizontal"
+        android:layout_marginBottom="64dp"
 
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.898" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
