@@ -107,7 +107,7 @@ public class GameActivity extends AppCompatActivity {
         }
 
         LinearLayout sudokuInput = findViewById(R.id.sudoku_input);
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 10; i++) {
             Button button = new Button(this);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(9, 1, 1f);
             params.width = 0;
@@ -116,18 +116,36 @@ public class GameActivity extends AppCompatActivity {
             params.setMargins(0, 0, 0, 0);
 
             button.setPadding(0, 0, 0, 0);
+            button.setTextSize(30);
             button.setLayoutParams(params);
             button.setBackground(ContextCompat.getDrawable(this, R.drawable.plain_background));
-            button.setText(Integer.toString(i + 1));
-            button.setTextColor(getColor(R.color.text));
+            // if number
+            if (i < 9)
+            {
+                button.setText(Integer.toString(i + 1));
+                button.setTextColor(getColor(R.color.text));
 
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) { // on click listener for bottom input buttons
-                    Button clickedInput = (Button) v;
-                    inputGiven(clickedInput); // takes whatever the user clicked for inputting
-                }
-            });
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) { // on click listener for bottom input buttons
+                        Button clickedInput = (Button) v;
+                        inputGiven(clickedInput); // takes whatever the user clicked for inputting
+                    }
+                });
+            }
+            // for backspace
+            else
+            {
+                button.setForeground(ContextCompat.getDrawable(this, R.drawable.backspace));
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Button clickedInput = (Button) v;
+                        removeInput();
+                    }
+
+                });
+            }
 
             sudokuInput.addView(button);
         }
@@ -152,6 +170,8 @@ public class GameActivity extends AppCompatActivity {
 
     public void inputGiven(Button btn) { // takes whatever the user clicked for inputting
         Button cell = getCurrentCell();
+        if (cell == null)
+            return;
         if(cell.getCurrentTextColor() != getColor(R.color.text)) {  // this if statement avoids replacing fixed puzzle numbers
             if (cell.getText() == btn.getText()) { // allow for removal of numbers
                 cell.setText("");
@@ -168,6 +188,16 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    public void removeInput() {
+        Button cell = getCurrentCell();
+        if (cell == null)
+            return;
+        if (cell.getCurrentTextColor() != getColor(R.color.text)) {
+            cell.setText("");
+        }
+    }
+
+
     public void setValueStyle(boolean correct) { // takes true if value is correct
         // maybe set selected here or something for styles
 
@@ -180,31 +210,14 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    public void setClickedCellStyle(Button clickedCell) { // for setting styles for selected cell and
-        // cells in the same row and column when a cell is selected
-//        if(!allForStyles.isEmpty()) {
-//            for(Button i : allForStyles) {
-//                System.out.println("We cleared " + i);
-//                i.getBackground().clearColorFilter();
-//            }
-//        }
+    public void setClickedCellStyle(Button clickedCell) {
 
         // clear the highlighting from each of them
         getCurrentCell().getBackground().clearColorFilter();
-//        for(Button i : allForStyles) {
-//            System.out.println("We cleared " + i);
-//            i.getBackground().clearColorFilter();
-//        }
 
         // set highlighting for each cell
         clickedCell.getBackground().setColorFilter(ContextCompat.getColor(GameActivity.this,
                 R.color.background), PorterDuff.Mode.MULTIPLY);
-//        for(Button i : allForStyles) {
-//            if(i != null) {
-//                i.getBackground().setColorFilter(ContextCompat.getColor(GameActivity.this,
-//                        R.color.background), PorterDuff.Mode.MULTIPLY);
-//            }
-//        }
 
 
     }
