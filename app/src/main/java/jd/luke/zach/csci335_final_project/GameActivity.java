@@ -3,26 +3,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 import androidx.core.content.ContextCompat;
-import androidx.gridlayout.widget.GridLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
+
 
 public class GameActivity extends AppCompatActivity {
     private Button currentCell; // cell that the user last clicked on
@@ -59,19 +53,21 @@ public class GameActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle("");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        GridLayout sudokuGrid = findViewById(R.id.sudoku_grid);
+        LinearLayout sudokuGrid = findViewById(R.id.sudoku_grid);
 
-        for (int row = 0; row < 9; row++) {
-            for (int col = 0; col < 9; col++) {
+        for (int row = 0; row < 9; row++)
+        {
+            LinearLayout grid_row = new LinearLayout(this);
+            grid_row.setOrientation(LinearLayout.HORIZONTAL);
+            LinearLayout.LayoutParams row_params = new LinearLayout.LayoutParams(-1, -1, 1.0f);
+            grid_row.setLayoutParams(row_params);
+            for (int col = 0; col < 9; col++)
+            {
                 Button button = new Button(this);
-                GridLayout.LayoutParams params = new GridLayout.LayoutParams();
-                params.width = 0;
-                params.height = 0;
-                params.rowSpec = GridLayout.spec(row, 1f);
-                params.columnSpec = GridLayout.spec(col, 1f);
-                params.setMargins(0, 0, 0, 0);
-                button.setPadding(0, 0, 0, 0);
-                button.setLayoutParams(params);
+                LinearLayout.LayoutParams button_params = new LinearLayout.LayoutParams(-1, -1, 1.0f);
+                button.setPadding(0, 0,0,0);
+                button.setLayoutParams(button_params);
+
                 // nightmare setting buttons to have thick borders at the right spots
                 if ((row == 2 && col == 3) || (row == 2 && col == 6) || (row == 5 && col == 3)
                         || (row == 5 && col == 6)) { // if it's at an intersection for thick lines
@@ -102,21 +98,15 @@ public class GameActivity extends AppCompatActivity {
                         setCurrentCell(clickedCell);
                     }
                 }); // to set color: button.setTextColor(getResources().getColor(R.color.primary));
-                sudokuGrid.addView(button);
+
+
+                grid_row.addView(button);
                 buttons[row][col] = button;
             }
+            sudokuGrid.addView(grid_row);
         }
 
-        ViewGroup.LayoutParams grid_params = sudokuGrid.getLayoutParams();
-        int grid_size = sudokuGrid.getMeasuredWidth() < sudokuGrid.getMeasuredHeight() ? sudokuGrid.getMeasuredWidth() : sudokuGrid.getMeasuredHeight();
-
-        grid_params.width = grid_size;
-        grid_params.height = grid_size;
-
-        sudokuGrid.setLayoutParams(grid_params);
-
-
-        LinearLayout sudokuInput = findViewById(R.id.sudoku_linput);
+        LinearLayout sudokuInput = findViewById(R.id.sudoku_input);
         for (int i = 0; i < 9; i++) {
             Button button = new Button(this);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(9, 1, 1f);
@@ -281,4 +271,5 @@ public class GameActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
 }
