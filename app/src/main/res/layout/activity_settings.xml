@@ -11,7 +11,7 @@
         android:id="@+id/toolbar3"
         android:layout_width="411dp"
         android:layout_height="wrap_content"
-        android:background="@color/primary"
+        android:background="@color/background"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,9 +20,10 @@
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/SoundSwitch"
-        android:layout_width="48dp"
+        android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginTop="256dp"
+        android:contentDescription="@string/Sound"
         app:layout_constraintBottom_toTopOf="@+id/VibrationSwitch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -32,12 +33,39 @@
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/VibrationSwitch"
-        android:layout_width="48dp"
+        android:layout_width="wrap_content"
         android:layout_height="48dp"
+        android:contentDescription="@string/vibration"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SoundSwitch"
         app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="332dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/Sound"
+        app:layout_constraintBottom_toTopOf="@+id/SoundSwitch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar3" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="77dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/vibration"
+        app:layout_constraintBottom_toTopOf="@+id/VibrationSwitch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SoundSwitch" />
 </androidx.constraintlayout.widget.ConstraintLayout>

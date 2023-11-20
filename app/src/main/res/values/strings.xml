@@ -15,4 +15,5 @@
     <string name="main_menu">Main Menu</string>
 
     <string name="Sound">Sound</string>
+    <string name="vibration">Vibration</string>
 </resources>
