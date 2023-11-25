@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="primary_button">
+        <item name="android:background">@drawable/primary_button</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">65dp</item>
         <item name="android:layout_marginLeft">30dp</item>
         <item name="android:layout_marginRight">30dp</item>
+        <item name="android:stateListAnimator">@animator/button_animate</item>
         <item name="android:textSize">24sp</item>
-        <!-- Add other properties if needed, like background, text size, etc. -->
     </style>
 
     <style name="outline_button">
@@ -17,7 +18,7 @@
         <item name="android:textSize">24sp</item>
         <item name="android:background">@drawable/outline_button</item>
         <item name="android:textColor">@color/primary</item>
-        <!-- Add other properties if needed, like background, text size, etc. -->
+        <item name="android:stateListAnimator">@animator/button_animate</item>
     </style>
 
 </resources>
