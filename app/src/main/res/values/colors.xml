@@ -7,5 +7,5 @@
     <color name="primary">#ff8400</color>
     <color name="secondary">#ffe083</color>
     <color name="accent">#cf4307</color>
-    <color name="error">#e33100</color>
+    <color name="error">#007bff</color>
 </resources>

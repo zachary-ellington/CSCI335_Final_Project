@@ -3,6 +3,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,7 +29,6 @@ public class GameActivity extends AppCompatActivity {
         currentCell = btn;
     }
     Button[][] buttons = new Button[9][9];
-    ArrayList<Button> allForStyles = new ArrayList<>();
     ArrayList<String[][]> puzzles = new ArrayList<>();
     HashMap<Button, ArrayList<Integer>> btnmap = new HashMap<>();
 
@@ -54,6 +54,8 @@ public class GameActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         LinearLayout sudokuGrid = findViewById(R.id.sudoku_grid);
+        sudokuGrid.setBackground(ContextCompat.getDrawable(this, R.drawable.grid_border));
+        sudokuGrid.setPadding(10, 10, 10, 10); // shows thick border around grid
 
         for (int row = 0; row < 9; row++)
         {
@@ -88,16 +90,13 @@ public class GameActivity extends AppCompatActivity {
                 myNumbers.add(col);
 
                 btnmap.put(button, myNumbers);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) { // onclick listener for cells
-                        Button clickedCell = (Button) v;
-                        if(getCurrentCell() == null)
-                            setCurrentCell(clickedCell);
-                        setClickedCellStyle(clickedCell);
+                button.setOnClickListener(v -> { // onclick listener for cells
+                    Button clickedCell = (Button) v;
+                    if(getCurrentCell() == null)
                         setCurrentCell(clickedCell);
-                    }
-                }); // to set color: button.setTextColor(getResources().getColor(R.color.primary));
+                    setClickedCellStyle(clickedCell);
+                    setCurrentCell(clickedCell);
+                });
 
 
                 grid_row.addView(button);
@@ -175,7 +174,6 @@ public class GameActivity extends AppCompatActivity {
         if(cell.getCurrentTextColor() != getColor(R.color.text)) {  // this if statement avoids replacing fixed puzzle numbers
             if (cell.getText() == btn.getText()) { // allow for removal of numbers
                 cell.setText("");
-                return;
             } else {
                 boolean correct = checkConflicts((String) btn.getText());
                 setValueStyle(correct);
@@ -214,17 +212,34 @@ public class GameActivity extends AppCompatActivity {
 
         // clear the highlighting from each of them
         getCurrentCell().getBackground().clearColorFilter();
+        ArrayList<Button> style_buttons = getSameRCS(getCurrentCell());
+        for(int i = 0; i < style_buttons.size(); i++) {
+            style_buttons.get(i).getBackground().clearColorFilter();
+        }
+
 
         // set highlighting for each cell
-        clickedCell.getBackground().setColorFilter(ContextCompat.getColor(GameActivity.this,
-                R.color.background), PorterDuff.Mode.MULTIPLY);
-
-
+        style_buttons = getSameRCS(clickedCell);
+        for(int i = 0; i < style_buttons.size(); i++) {
+            darkenButton(style_buttons.get(i), 2);
+        }
+        darkenButton(clickedCell, 5);
     }
+
+    private void darkenButton(Button button, int darkness) {
+        float[] hsv = new float[3]; // hue, saturation, value
+        int color = ContextCompat.getColor(this, R.color.background);
+        Color.colorToHSV(color, hsv);
+        hsv[2] *= 1.0 - (darkness / 100.0); // adjust brightness; 100 is max darkness
+        hsv[1] = 0.05f;
+        hsv[0] = 0.05f;
+        button.getBackground().setColorFilter(Color.HSVToColor(hsv), PorterDuff.Mode.MULTIPLY);
+    }
+
 
     public boolean checkConflicts(String val) { // loop through cells to get conflicts
         // takes in the value of input to check other cells against
-        ArrayList<Button> all = getSameRCS();
+        ArrayList<Button> all = getSameRCS(getCurrentCell());
         for(int i = 0; i < all.size(); i++) {
             if(all.get(i).getText().equals(val)) {
                 System.out.println("wrong");
@@ -236,9 +251,8 @@ public class GameActivity extends AppCompatActivity {
         return true;
     }
 
-    public ArrayList<Button> getSameRCS() { // gets all the buttons in the same row, column, and square for a clicked cell
+    public ArrayList<Button> getSameRCS(Button btn) { // gets all the buttons in the same row, column, and square for a clicked cell
         ArrayList<Button> result = new ArrayList<>();
-        Button btn = getCurrentCell();
         int row = btnmap.get(btn).get(0);
         int col = btnmap.get(btn).get(1);
         for(int i = 0; i < 9; i++) { // adding all buttons in row and column
