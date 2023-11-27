@@ -234,7 +234,7 @@ public class GameActivity extends AppCompatActivity {
 
         for(int i = 0; i < buttons.length; i++) { // add highlighting for same values (e.g. highlight all the 1s)
             for(int j = 0; j < buttons[i].length; j++) {
-                if(buttons[i][j].getText() == clickedCell.getText()) {
+                if(buttons[i][j].getText() != "" && buttons[i][j].getText() == clickedCell.getText()) {
                     darkenButton(buttons[i][j], 10);
                 }
             }
