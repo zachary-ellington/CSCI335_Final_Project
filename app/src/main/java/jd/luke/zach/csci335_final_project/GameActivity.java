@@ -212,18 +212,34 @@ public class GameActivity extends AppCompatActivity {
 
         // clear the highlighting from each of them
         getCurrentCell().getBackground().clearColorFilter();
-        ArrayList<Button> style_buttons = getSameRCS(getCurrentCell());
+        ArrayList<Button> style_buttons = getSameRCS(getCurrentCell()); // list of old cells
         for(int i = 0; i < style_buttons.size(); i++) {
             style_buttons.get(i).getBackground().clearColorFilter();
         }
 
+        for(int i = 0; i < buttons.length; i++) { // remove highlighting for same values (e.g. clear highlight all the 1s)
+            for(int j = 0; j < buttons[i].length; j++) {
+                if(buttons[i][j].getText() == getCurrentCell().getText()) {
+                    buttons[i][j].getBackground().clearColorFilter();
+                }
+            }
+        }
+
 
         // set highlighting for each cell
-        style_buttons = getSameRCS(clickedCell);
+        style_buttons = getSameRCS(clickedCell); // re-using list for new cells
         for(int i = 0; i < style_buttons.size(); i++) {
             darkenButton(style_buttons.get(i), 2);
         }
-        darkenButton(clickedCell, 5);
+
+        for(int i = 0; i < buttons.length; i++) { // add highlighting for same values (e.g. highlight all the 1s)
+            for(int j = 0; j < buttons[i].length; j++) {
+                if(buttons[i][j].getText() == clickedCell.getText()) {
+                    darkenButton(buttons[i][j], 10);
+                }
+            }
+        }
+        darkenButton(clickedCell, 10);
     }
 
     private void darkenButton(Button button, int darkness) {
