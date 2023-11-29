@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import java.util.Objects;
 
 
 public class GameActivity extends AppCompatActivity {
+
     private Button currentCell; // cell that the user last clicked on
     public int mistakes = 0;
     Button[][] buttons = new Button[9][9];
@@ -77,12 +79,18 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // For a light status bar with dark icons
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Sudoku");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         LinearLayout sudokuGrid = findViewById(R.id.sudoku_grid);
@@ -158,6 +166,7 @@ public class GameActivity extends AppCompatActivity {
                     public void onClick(View v) { // on click listener for bottom input buttons
                         Button clickedInput = (Button) v;
                         inputGiven(clickedInput); // takes whatever the user clicked for inputting
+                        setClickedCellStyle(getCurrentCell());
                     }
                 });
             }
@@ -210,6 +219,14 @@ public class GameActivity extends AppCompatActivity {
             return;
         if(cell.getCurrentTextColor() != getColor(R.color.text)) {  // this if statement avoids replacing fixed puzzle numbers
             if (cell.getText() == btn.getText()) { // allow for removal of numbers
+                for(int i = 0; i < buttons.length; i++) { // remove highlighting on cells with values
+                    for(int j = 0; j < buttons.length; j++) {
+                        if(buttons[i][j].getText().equals(getCurrentCell().getText())) {
+                            buttons[i][j].getBackground().clearColorFilter();
+                        }
+                    }
+                    darkenButton(getCurrentCell(), 10);
+                }
                 cell.setText("");
             } else {
                 char value = btn.getText().charAt(0);
@@ -245,7 +262,15 @@ public class GameActivity extends AppCompatActivity {
         Button cell = getCurrentCell();
         if (cell == null)
             return;
-        if (cell.getCurrentTextColor() != getColor(R.color.text)) {
+        if (cell.getCurrentTextColor() != getColor(R.color.text)) { // remove highlighting on cells with values
+            for(int i = 0; i < buttons.length; i++) {
+                for(int j = 0; j < buttons.length; j++) {
+                    if(buttons[i][j].getText().equals(getCurrentCell().getText())) {
+                        buttons[i][j].getBackground().clearColorFilter();
+                    }
+                }
+                darkenButton(getCurrentCell(), 10);
+            }
             cell.setText("");
         }
     }

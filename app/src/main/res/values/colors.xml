@@ -3,9 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="text">#130e01</color>
-    <color name="background">#fffaeb</color>
+    <color name="background">#fffcf3</color>
     <color name="primary">#ff8400</color>
-    <color name="secondary">#ffe083</color>
-    <color name="accent">#cf4307</color>
+    <color name="secondary">#ffc68a</color>
+    <color name="accent">#ffc68a</color>
     <color name="error">#007bff</color>
 </resources>
