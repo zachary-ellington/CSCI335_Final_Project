@@ -86,6 +86,9 @@ public class GameActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         LinearLayout sudokuGrid = findViewById(R.id.sudoku_grid);
+        // gives the whole board a thicker outer border
+        sudokuGrid.setBackground(getDrawable(R.drawable.grid_border));
+        sudokuGrid.setPadding(7, 7, 7, 7);
 
         for (int row = 0; row < 9; row++)
         {
@@ -269,14 +272,14 @@ public class GameActivity extends AppCompatActivity {
             style_buttons.get(i).getBackground().clearColorFilter();
         }
 
+
         for(int i = 0; i < buttons.length; i++) { // remove highlighting for same values (e.g. clear highlight all the 1s)
             for(int j = 0; j < buttons[i].length; j++) {
-                if(buttons[i][j].getText() == getCurrentCell().getText()) {
+                if(buttons[i][j].getText().equals(getCurrentCell().getText())) {
                     buttons[i][j].getBackground().clearColorFilter();
                 }
             }
         }
-
 
         // set highlighting for each cell
         style_buttons = getSameRCS(clickedCell); // re-using list for new cells
@@ -286,7 +289,8 @@ public class GameActivity extends AppCompatActivity {
 
         for(int i = 0; i < buttons.length; i++) { // add highlighting for same values (e.g. highlight all the 1s)
             for(int j = 0; j < buttons[i].length; j++) {
-                if(buttons[i][j].getText() != "" && buttons[i][j].getText() == clickedCell.getText()) {
+                // skip empties and get same values
+                if(buttons[i][j].getText() != "" && buttons[i][j].getText().equals(clickedCell.getText())) {
                     darkenButton(buttons[i][j], 10);
                 }
             }
