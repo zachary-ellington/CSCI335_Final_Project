@@ -3,11 +3,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -83,7 +85,6 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         final MediaPlayer click_sound = MediaPlayer.create(this, R.raw.ping);
-        final MediaPlayer success_sound = MediaPlayer.create(this, R.raw.success);
 
 
 
@@ -225,8 +226,11 @@ public class GameActivity extends AppCompatActivity {
             } else {
                 char value = btn.getText().charAt(0);
                 boolean correct = isCorrect(cell, value);
-                if (!correct)
+                if (!correct) {
+                    final Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    vibrator.vibrate(250);
                     mistakes++;
+                }
                 setValueStyle(correct);
                 if (!correct && mistakes >= 3) {
                     startGameOver(cell); // takes a placeholder rn
@@ -388,8 +392,9 @@ public class GameActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // Method to start GameOverActivity, can be triggered by a button click for example
     public void startGameOver(View view) {
+        final MediaPlayer success_sound = MediaPlayer.create(this, R.raw.success);
+        success_sound.start();
         Intent intent = new Intent(this, GameOverActivity.class);
         startActivity(intent);
         finish();
