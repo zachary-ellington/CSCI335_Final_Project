@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -81,6 +82,11 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        final MediaPlayer click_sound = MediaPlayer.create(this, R.raw.ping);
+        final MediaPlayer success_sound = MediaPlayer.create(this, R.raw.success);
+
+
+
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Sudoku");
@@ -124,7 +130,7 @@ public class GameActivity extends AppCompatActivity {
                     Button clickedCell = (Button) v;
                     if(getCurrentCell() == null)
                         setCurrentCell(clickedCell);
-                    setClickedCellStyle(clickedCell);
+                    setClickedCellStyle(clickedCell); // styling for
                     setCurrentCell(clickedCell);
                 }); // to set color: button.setTextColor(getResources().getColor(R.color.primary));
 
@@ -135,6 +141,7 @@ public class GameActivity extends AppCompatActivity {
             sudokuGrid.addView(grid_row);
         }
 
+        // creating inputs at bottom
         LinearLayout sudokuInput = findViewById(R.id.sudoku_input);
         for (int i = 0; i < 10; i++) {
             Button button = new Button(this);
@@ -153,9 +160,10 @@ public class GameActivity extends AppCompatActivity {
             {
                 button.setText(String.format(String.valueOf(i + 1)));
                 button.setTextColor(getColor(R.color.text));
-
+                button.setSoundEffectsEnabled(false);
                 button.setOnClickListener(v -> { // on click listener for bottom input buttons
                     Button clickedInput = (Button) v;
+                    click_sound.start();
                     inputGiven(clickedInput); // takes whatever the user clicked for inputting
                     setClickedCellStyle(getCurrentCell());
                 });
@@ -166,6 +174,7 @@ public class GameActivity extends AppCompatActivity {
                 button.setForeground(ContextCompat.getDrawable(this, R.drawable.backspace));
                 button.setOnClickListener(v -> {
                     removeInput();
+                    click_sound.start();
                 });
             }
 
@@ -327,8 +336,10 @@ public class GameActivity extends AppCompatActivity {
             result.add(buttons[i][col]);
         }
         for(int i = 0; i < 3; i++) { // adding all buttons in square
-            for (int j = 0; j < 3; j++) {
-                result.add(buttons[(3 * (row/3) + i)][(3 * (col/3) + j)]);
+            int j = 0;
+            while (j < 3) { // using while loop to avoid warning
+                result.add(buttons[3 * (row/3) + i][3 * (col/3) + j]);
+                j++;
             }
         }
 
