@@ -1,11 +1,11 @@
 package jd.luke.zach.csci335_final_project;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +25,6 @@ public class GameActivity extends AppCompatActivity {
     private Button currentCell; // cell that the user last clicked on
     public int mistakes = 0;
     Button[][] buttons = new Button[9][9];
-    ArrayList<Button> allForStyles = new ArrayList<>();
     String[] puzzles = new String[] {
             "490671030000402800500900070104500000009000100030010007000709205000200016920005040",
             "000500002700600800001000300076050000002000000080000700390072600020000090050018030",
@@ -79,12 +78,6 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // For a light status bar with dark icons
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
@@ -158,29 +151,21 @@ public class GameActivity extends AppCompatActivity {
             // if number
             if (i < 9)
             {
-                button.setText(Integer.toString(i + 1));
+                button.setText(String.format(String.valueOf(i + 1)));
                 button.setTextColor(getColor(R.color.text));
 
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) { // on click listener for bottom input buttons
-                        Button clickedInput = (Button) v;
-                        inputGiven(clickedInput); // takes whatever the user clicked for inputting
-                        setClickedCellStyle(getCurrentCell());
-                    }
+                button.setOnClickListener(v -> { // on click listener for bottom input buttons
+                    Button clickedInput = (Button) v;
+                    inputGiven(clickedInput); // takes whatever the user clicked for inputting
+                    setClickedCellStyle(getCurrentCell());
                 });
             }
             // for backspace
             else
             {
                 button.setForeground(ContextCompat.getDrawable(this, R.drawable.backspace));
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Button clickedInput = (Button) v;
-                        removeInput();
-                    }
-
+                button.setOnClickListener(v -> {
+                    removeInput();
                 });
             }
 
@@ -219,10 +204,10 @@ public class GameActivity extends AppCompatActivity {
             return;
         if(cell.getCurrentTextColor() != getColor(R.color.text)) {  // this if statement avoids replacing fixed puzzle numbers
             if (cell.getText() == btn.getText()) { // allow for removal of numbers
-                for(int i = 0; i < buttons.length; i++) { // remove highlighting on cells with values
-                    for(int j = 0; j < buttons.length; j++) {
-                        if(buttons[i][j].getText().equals(getCurrentCell().getText())) {
-                            buttons[i][j].getBackground().clearColorFilter();
+                for (Button[] button : buttons) { // remove highlighting on cells with values
+                    for (int j = 0; j < buttons.length; j++) {
+                        if (button[j].getText().equals(getCurrentCell().getText())) {
+                            button[j].getBackground().clearColorFilter();
                         }
                     }
                     darkenButton(getCurrentCell(), 10);
@@ -250,8 +235,7 @@ public class GameActivity extends AppCompatActivity {
      * @return True if the input value aligns correctly with solution value
      */
     public boolean isCorrect(Button cell, char value) {
-        Integer integer_index = button_map.get(cell);
-        int index = integer_index;
+        int index = button_map.get(cell);
         String solution = getCurrentPuzzleSolution();
         char solution_char = solution.charAt(index);
         return value == solution_char;
@@ -263,10 +247,10 @@ public class GameActivity extends AppCompatActivity {
         if (cell == null)
             return;
         if (cell.getCurrentTextColor() != getColor(R.color.text)) { // remove highlighting on cells with values
-            for(int i = 0; i < buttons.length; i++) {
-                for(int j = 0; j < buttons.length; j++) {
-                    if(buttons[i][j].getText().equals(getCurrentCell().getText())) {
-                        buttons[i][j].getBackground().clearColorFilter();
+            for (Button[] button : buttons) {
+                for (int j = 0; j < buttons.length; j++) {
+                    if (button[j].getText().equals(getCurrentCell().getText())) {
+                        button[j].getBackground().clearColorFilter();
                     }
                 }
                 darkenButton(getCurrentCell(), 10);
@@ -298,10 +282,10 @@ public class GameActivity extends AppCompatActivity {
         }
 
 
-        for(int i = 0; i < buttons.length; i++) { // remove highlighting for same values (e.g. clear highlight all the 1s)
-            for(int j = 0; j < buttons[i].length; j++) {
-                if(buttons[i][j].getText().equals(getCurrentCell().getText())) {
-                    buttons[i][j].getBackground().clearColorFilter();
+        for (Button[] button : buttons) { // remove highlighting for same values (e.g. clear highlight all the 1s)
+            for (Button value : button) {
+                if (value.getText().equals(getCurrentCell().getText())) {
+                    value.getBackground().clearColorFilter();
                 }
             }
         }
@@ -312,11 +296,11 @@ public class GameActivity extends AppCompatActivity {
             darkenButton(style_buttons.get(i), 2);
         }
 
-        for(int i = 0; i < buttons.length; i++) { // add highlighting for same values (e.g. highlight all the 1s)
-            for(int j = 0; j < buttons[i].length; j++) {
+        for (Button[] button : buttons) { // add highlighting for same values (e.g. highlight all the 1s)
+            for (Button value : button) {
                 // skip empties and get same values
-                if(buttons[i][j].getText() != "" && buttons[i][j].getText().equals(clickedCell.getText())) {
-                    darkenButton(buttons[i][j], 10);
+                if (value.getText() != "" && value.getText().equals(clickedCell.getText())) {
+                    darkenButton(value, 10);
                 }
             }
         }
@@ -335,7 +319,7 @@ public class GameActivity extends AppCompatActivity {
 
     public ArrayList<Button> getSameRCS(Button btn) { // gets all the buttons in the same row, column, and square for a clicked cell
         ArrayList<Button> result = new ArrayList<>();
-        int index = button_map.get(btn).intValue();
+        int index = button_map.get(btn);
         int row = index / 9;
         int col = index % 9;
         for(int i = 0; i < 9; i++) { // adding all buttons in row and column
@@ -364,7 +348,25 @@ public class GameActivity extends AppCompatActivity {
         // Handle action bar item clicks here.
         if (item.getItemId() == android.R.id.home) {
             // Handle the Up/Home button
-            finish();
+
+            // 1. Instantiate an AlertDialog.Builder with its constructor.
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+// 2. Chain together various setter methods to set the dialog characteristics.
+            builder.setMessage(R.string.exit_dialog_message)
+                    .setTitle(R.string.exit_dialog_title);
+// 3. Get the AlertDialog.
+
+            //set properties of the buttons inside the dialog
+            builder.setPositiveButton(R.string.dialog_accept, (dialog, id) -> {
+                // User taps OK button.
+                finish();
+            });
+            builder.setNegativeButton(R.string.dialog_decline, (dialog, id) -> {
+                // User cancels the dialog
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
             return true;
         } else if (item.getItemId() == R.id.action_settings) {
             // Handle the settings action
