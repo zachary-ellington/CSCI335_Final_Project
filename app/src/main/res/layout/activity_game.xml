@@ -64,7 +64,25 @@
         app:layout_constraintHorizontal_bias="0.0"
         />
 
+    <TextView
+        android:id="@+id/mistakes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="@string/mistakes"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/sudoku_grid_container"
+        app:layout_constraintStart_toStartOf="@+id/sudoku_grid_container" />
 
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="@string/time"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/sudoku_grid_container"
+        app:layout_constraintEnd_toEndOf="@+id/sudoku_grid_container" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

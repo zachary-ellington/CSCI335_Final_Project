@@ -9,15 +9,18 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -76,8 +79,30 @@ public class GameActivity extends AppCompatActivity {
     };
 
     int puzzle_in_use_index = 0;
+    TextView mistake_counter;
+    int mistake_limit = 3;
 
     HashMap<Button, Integer> button_map = new HashMap<>();
+
+    TextView timerTextView;
+    long startTime = 0;
+
+    //runs without a timer by reposting this handler at the end of the runnable
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            long millis = System.currentTimeMillis() - startTime;
+            int seconds = (int) (millis / 1000);
+            int minutes = seconds / 60;
+            seconds = seconds % 60;
+
+            timerTextView.setText(String.format("%d:%02d", minutes, seconds));
+
+            timerHandler.postDelayed(this, 500);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +110,9 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         final MediaPlayer click_sound = MediaPlayer.create(this, R.raw.ping);
+        timerTextView = (TextView) findViewById(R.id.timer);
 
-
+        mistake_counter = findViewById(R.id.mistakes);
 
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
@@ -181,6 +207,8 @@ public class GameActivity extends AppCompatActivity {
 
             sudokuInput.addView(button);
         }
+        startTime = System.currentTimeMillis();
+        timerHandler.postDelayed(timerRunnable, 0);
         fillBoard();
     }
 
@@ -230,6 +258,7 @@ public class GameActivity extends AppCompatActivity {
                     final Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     vibrator.vibrate(250);
                     mistakes++;
+                    mistake_counter.setText(MessageFormat.format("Mistakes: {0}/{1}", mistakes, mistake_limit));
                 }
                 setValueStyle(correct);
                 if (!correct && mistakes >= 3) {

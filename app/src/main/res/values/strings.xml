@@ -17,6 +17,8 @@
     <string name="exit_dialog_message">Your changes will not be saved, and the board will be reset.</string>
     <string name="dialog_accept">Yes</string>
     <string name="dialog_decline">No</string>
+    <string name="mistakes">Mistakes: 0/3</string>
+    <string name="time">Time: 0:00</string>
     <string name="Sound">Sound</string>
     <string name="vibration">Vibration</string>
 </resources>
