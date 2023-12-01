@@ -84,6 +84,7 @@ public class GameActivity extends AppCompatActivity {
 
     HashMap<Button, Integer> button_map = new HashMap<>();
 
+    // whole bunch of timer stuff
     TextView timerTextView;
     long startTime = 0;
 
@@ -194,6 +195,11 @@ public class GameActivity extends AppCompatActivity {
                         click_sound.start();
                         inputGiven(clickedInput); // takes whatever the user clicked for inputting
                         setClickedCellStyle(getCurrentCell());
+                        // 0 if don't end, 1 if end because mistakes, 2 if end because victory
+                        int endgame = checkEndGameStatus();
+                        if(endgame != 0) {
+                            startGameOver(endgame);
+                        }
                     }
                 });
             }
@@ -213,9 +219,14 @@ public class GameActivity extends AppCompatActivity {
             sudokuInput.addView(button);
         }
         startTime = System.currentTimeMillis();
-        timerHandler.postDelayed(timerRunnable, 0);
+        timerHandler.postDelayed(timerRunnable, 0); // start timer
         fillBoard();
     }
+
+    // ************************************************************************************************************
+    // *************** END OF onCreate() **************************************************************************
+    // ************************************************************************************************************
+
 
     public Button getCurrentCell() {
         return currentCell;
@@ -263,12 +274,10 @@ public class GameActivity extends AppCompatActivity {
                     final Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     vibrator.vibrate(250);
                     mistakes++;
+                    // display mistake text
                     mistake_counter.setText(MessageFormat.format("Mistakes: {0}/{1}", mistakes, mistake_limit));
                 }
                 setValueStyle(correct);
-                if (!correct && mistakes >= 3) {
-                    startGameOver(cell); // takes a placeholder rn
-                }
 
                 for (Button[] button : buttons) { // remove highlighting on cells with values
                     for (int j = 0; j < buttons.length; j++) {
@@ -371,6 +380,7 @@ public class GameActivity extends AppCompatActivity {
         button.getBackground().setColorFilter(Color.HSVToColor(hsv), PorterDuff.Mode.MULTIPLY);
     }
 
+
     public ArrayList<Button> getSameRCS(Button btn) { // gets all the buttons in the same row, column, and square for a clicked cell
         ArrayList<Button> result = new ArrayList<>();
         int index = button_map.get(btn);
@@ -433,12 +443,38 @@ public class GameActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void startGameOver(View view) {
-        final MediaPlayer success_sound = MediaPlayer.create(this, R.raw.success);
-        success_sound.start();
-        Intent intent = new Intent(this, GameOverActivity.class);
-        startActivity(intent);
-        finish();
+    public int checkEndGameStatus() {
+        // they made too many mistakes
+        if(mistakes >= 3) {
+            return 1;
+        }
+
+        // there are values that are unassigned or incorrect, so it's unfinished (
+        for(Button[] button: buttons) {
+            for(Button value : button) {
+                if(!value.getText().equals("") || isCorrect(value, value.getText().charAt(0)))
+                    return 0;
+            }
+        }
+        // otherwise they must have won
+        return 2;
+    }
+
+    public void startGameOver(int result) {
+        if(result == 2) {
+            final MediaPlayer success_sound = MediaPlayer.create(this, R.raw.success);
+            success_sound.start();
+            Intent intent = new Intent(this, GameOverActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else {
+            final MediaPlayer failure_sound = MediaPlayer.create(this, R.raw.failure);
+            failure_sound.start();
+            Intent intent = new Intent(this, GameOverActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     public String getCurrentPuzzleSolution() {
