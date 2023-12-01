@@ -189,19 +189,24 @@ public class GameActivity extends AppCompatActivity {
                 button.setTextColor(getColor(R.color.text));
                 button.setSoundEffectsEnabled(false);
                 button.setOnClickListener(v -> { // on click listener for bottom input buttons
-                    Button clickedInput = (Button) v;
-                    click_sound.start();
-                    inputGiven(clickedInput); // takes whatever the user clicked for inputting
-                    setClickedCellStyle(getCurrentCell());
+                    if (getCurrentCell() != null) {
+                        Button clickedInput = (Button) v;
+                        click_sound.start();
+                        inputGiven(clickedInput); // takes whatever the user clicked for inputting
+                        setClickedCellStyle(getCurrentCell());
+                    }
                 });
             }
             // for backspace
             else
             {
+                button.setSoundEffectsEnabled(false);
                 button.setForeground(ContextCompat.getDrawable(this, R.drawable.backspace));
                 button.setOnClickListener(v -> {
-                    removeInput();
-                    click_sound.start();
+                    if(getCurrentCell() != null) {
+                        removeInput();
+                        click_sound.start();
+                    }
                 });
             }
 
@@ -264,6 +269,15 @@ public class GameActivity extends AppCompatActivity {
                 if (!correct && mistakes >= 3) {
                     startGameOver(cell); // takes a placeholder rn
                 }
+
+                for (Button[] button : buttons) { // remove highlighting on cells with values
+                    for (int j = 0; j < buttons.length; j++) {
+                        if (button[j].getText().equals(getCurrentCell().getText())) {
+                            button[j].getBackground().clearColorFilter();
+                        }
+                    }
+                    darkenButton(getCurrentCell(), 10);
+                }
                 cell.setText(btn.getText());
             }
         }
@@ -286,12 +300,10 @@ public class GameActivity extends AppCompatActivity {
 
     public void removeInput() {
         Button cell = getCurrentCell();
-        if (cell == null)
-            return;
         if (cell.getCurrentTextColor() != getColor(R.color.text)) { // remove highlighting on cells with values
             for (Button[] button : buttons) {
                 for (int j = 0; j < buttons.length; j++) {
-                    if (button[j].getText().equals(getCurrentCell().getText())) {
+                    if (button[j].getText().equals(getCurrentCell().getText()) && !button[j].getText().equals("")) {
                         button[j].getBackground().clearColorFilter();
                     }
                 }
