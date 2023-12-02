@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
@@ -13,7 +14,6 @@ import android.os.Handler;
 import android.os.Vibrator;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,6 +31,8 @@ public class GameActivity extends AppCompatActivity {
     private Button currentCell; // cell that the user last clicked on
     public int mistakes = 0;
     Button[][] buttons = new Button[9][9];
+    SharedPreferences prefs;
+
     String[] puzzles = new String[] {
             "490671030000402800500900070104500000009000100030010007000709205000200016920005040",
             "000500002700600800001000300076050000002000000080000700390072600020000090050018030",
@@ -110,8 +112,10 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
         final MediaPlayer click_sound = MediaPlayer.create(this, R.raw.ping);
-        timerTextView = (TextView) findViewById(R.id.timer);
+        timerTextView = findViewById(R.id.timer);
 
         mistake_counter = findViewById(R.id.mistakes);
 
@@ -192,7 +196,7 @@ public class GameActivity extends AppCompatActivity {
                 button.setOnClickListener(v -> { // on click listener for bottom input buttons
                     if (getCurrentCell() != null) {
                         Button clickedInput = (Button) v;
-                        click_sound.start();
+                        playSound(click_sound);
                         inputGiven(clickedInput); // takes whatever the user clicked for inputting
                         setClickedCellStyle(getCurrentCell());
                         // 0 if don't end, 1 if end because mistakes, 2 if end because victory
@@ -211,7 +215,7 @@ public class GameActivity extends AppCompatActivity {
                 button.setOnClickListener(v -> {
                     if(getCurrentCell() != null) {
                         removeInput();
-                        click_sound.start();
+                        playSound(click_sound);
                     }
                 });
             }
@@ -272,7 +276,8 @@ public class GameActivity extends AppCompatActivity {
                 boolean correct = isCorrect(cell, value);
                 if (!correct) {
                     final Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    vibrator.vibrate(250);
+                    doVibrate(vibrator, 250);
+                    System.out.println("wrong");
                     mistakes++;
                     // display mistake text
                     mistake_counter.setText(MessageFormat.format("Mistakes: {0}/{1}", mistakes, mistake_limit));
@@ -323,7 +328,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-    public void setValueStyle(boolean correct) { // takes true if value is correct
+    public void setValueStyle(boolean correct) {
+        // takes true if value is correct
         // maybe set selected here or something for styles
 
         // buttons[row + 1][col + 1].setText("HELP");
@@ -448,11 +454,10 @@ public class GameActivity extends AppCompatActivity {
         if(mistakes >= 3) {
             return 1;
         }
-
         // there are values that are unassigned or incorrect, so it's unfinished (
         for(Button[] button: buttons) {
             for(Button value : button) {
-                if(!value.getText().equals("") || isCorrect(value, value.getText().charAt(0)))
+                if(value.getText().equals("") || !isCorrect(value, value.getText().charAt(0)))
                     return 0;
             }
         }
@@ -463,22 +468,37 @@ public class GameActivity extends AppCompatActivity {
     public void startGameOver(int result) {
         if(result == 2) {
             final MediaPlayer success_sound = MediaPlayer.create(this, R.raw.success);
-            success_sound.start();
-            Intent intent = new Intent(this, GameOverActivity.class);
-            startActivity(intent);
-            finish();
+            playSound(success_sound);
         }
         else {
             final MediaPlayer failure_sound = MediaPlayer.create(this, R.raw.failure);
-            failure_sound.start();
+            playSound(failure_sound);
+        }
+        // delay next activity so that the sound doesn't get cut off
+        new Handler().postDelayed(() -> {
             Intent intent = new Intent(this, GameOverActivity.class);
             startActivity(intent);
             finish();
-        }
+        }, 1000);
+
+
     }
 
     public String getCurrentPuzzleSolution() {
         return solutions[puzzle_in_use_index];
     }
 
+    // used for playing any sound based on the shared preferences
+    public void playSound(MediaPlayer sound) {
+        if(prefs.getBoolean("playSound", true)) {
+            sound.start();
+        }
+    }
+
+    // used for playing any vibration based on the shared preferences
+    public void doVibrate(Vibrator vib, int duration) {
+        if(prefs.getBoolean("doVibrate", true)) {
+            vib.vibrate(duration);
+        }
+    }
 }
