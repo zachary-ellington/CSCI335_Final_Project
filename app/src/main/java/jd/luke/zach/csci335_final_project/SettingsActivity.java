@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.AutoCompleteTextView;
 
 import java.util.Objects;
 
@@ -18,18 +18,31 @@ public class SettingsActivity extends AppCompatActivity {
     SwitchCompat vibration;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Fall_Theme);
+        setTheme(R.style.Winter_Theme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        String[] arraySpinner = new String[] {
+        String[] difficultySpinner = new String[] {
+                "Easy", "Medium", "Hard"
+        };
+        AutoCompleteTextView diffDropdown = findViewById(R.id.difficulty_dropdown);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_dropdown_item,
+                difficultySpinner);
+
+        diffDropdown.setAdapter(adapter1);
+
+        String[] themeSpinner = new String[] {
                 "Default", "Spring", "Summer", "Fall", "Winter"
         };
-        Spinner s = (Spinner) findViewById(R.id.Spinner01);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, arraySpinner);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        s.setAdapter(adapter);
+        AutoCompleteTextView dropdownMenu = findViewById(R.id.themes_dropdown);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_dropdown_item,
+                themeSpinner);
+
+        dropdownMenu.setAdapter(adapter2);
 
 
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
