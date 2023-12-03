@@ -6,4 +6,9 @@
         android:title="@string/action_settings"
         android:icon="@drawable/settings"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_tutorial"
+        android:title="@string/tutorial"
+        android:icon="@drawable/question_mark"
+        app:showAsAction="always"/>
 </menu>

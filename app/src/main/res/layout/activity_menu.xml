@@ -9,27 +9,37 @@
 
 
     <Button
-        style="@style/primary_button"
         android:id="@+id/button"
+        style="@style/primary_button"
         android:onClick="startGame"
-        android:text="@string/start_game"
         android:stateListAnimator="@animator/button_animate"
+        android:text="@string/start_game"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3"
-        app:layout_constraintVertical_bias="0.292" />
+        app:layout_constraintVertical_bias="0.1" />
 
     <Button
         style = "@style/outline_button"
         android:id="@+id/button2"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="20dp"
         android:onClick="startSettings"
         android:text="@string/settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <Button
+        style = "@style/outline_button"
+        android:id="@+id/button3"
+        android:layout_marginTop="20dp"
+        android:onClick="startTutorial"
+        android:text="@string/tutorial"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
 
     <ImageView
         android:id="@+id/imageView3"
