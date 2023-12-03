@@ -124,16 +124,15 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Winter_Theme);
+        // define user preferences
+        prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        setTheme(prefs.getInt("themePref", R.style.Base_Theme_CSCI335_Final_Project));
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
         // make the colors happen
         defineColors();
-
-        // define user preferences
-        prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
         // create media player for button clicks
         final MediaPlayer click_sound = MediaPlayer.create(this, R.raw.ping);
@@ -255,7 +254,21 @@ public class GameActivity extends AppCompatActivity {
     // *************** END OF onCreate() **************************************************************************
     // ************************************************************************************************************
 
+    // function activates after going out of activity, creating a string for reconstruction of
+    // user board in onCreate().
+    // example: 0n0n3u4d5u0n6e
+    // creates a top row of:
+    // ["", "", "3" (user inputted, correct), "4" (part of the initial puzzle), "5" (user defined), "", "6" (user defined, incorrect)]
+    @Override
+    public void onPause() {
+        String res = "";
+        for(Button[] button : buttons) {
+            for(Button value : button) {
 
+            }
+        }
+        super.onPause();
+    }
     public Button getCurrentCell() {
         return currentCell;
     }

@@ -50,7 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
             diffDropdown.setOnItemClickListener((parent, view, position, id) -> {
                 String selectedItem = adapter1.getItem(position);
                 editor.putString("diffPref", selectedItem);
-                editor.commit();
+                editor.apply();
             });
 
             // spinner for color themes
@@ -71,7 +71,7 @@ public class SettingsActivity extends AppCompatActivity {
                 String selectedItem = adapter2.getItem(position);
                 editor.putString("themePrefStr", selectedItem);
                 // since selectedItem is a string, we have to do this in order to retrieve the proper value later in code
-                switch (selectedItem) {
+                switch (Objects.requireNonNull(selectedItem)) {
                     case "Default":
                         editor.putInt("themePref", R.style.Base_Theme_CSCI335_Final_Project);
                         break;

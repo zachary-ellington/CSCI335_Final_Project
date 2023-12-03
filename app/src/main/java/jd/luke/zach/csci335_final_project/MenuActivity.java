@@ -5,14 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.content.Intent;
 
 public class MenuActivity extends AppCompatActivity {
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Winter_Theme);
+        prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        setTheme(prefs.getInt("themePref", R.style.Base_Theme_CSCI335_Final_Project));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
     }
@@ -26,4 +29,26 @@ public class MenuActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
+
+
+    // from here down is for recreating the activity to mesh with changes made in settings
+    SharedPreferences.OnSharedPreferenceChangeListener prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+            recreate(); // or update the UI elements as needed
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        prefs.unregisterOnSharedPreferenceChangeListener(prefListener);
+    }
+
+    @Override
+    protected void onPause() {
+        prefs.registerOnSharedPreferenceChangeListener(prefListener);
+        super.onPause();
+    }
+
 }
