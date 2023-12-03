@@ -3,10 +3,29 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="text">#130e01</color>
-    <color name="fall_background">#fffcf3</color>
+
+    <color name="default_primary">#0766AD</color>
+    <color name="default_secondary">#C5E898</color>
+    <color name="default_accent">#C5E898</color>
+    <color name="default_background">#F3F3F3</color>
+    <color name="default_error">#007bff</color>
+
+    <color name="spring_primary">#CCD6A6</color>
+    <color name="spring_secondary">#DFE8CC</color>
+    <color name="spring_accent">#DAE2B6</color>
+    <color name="spring_background">#F7EDDB</color>
+    <color name="spring_error">#007bff</color>
+
+    <color name="summer_primary">#FFF2CC</color>
+    <color name="summer_secondary">#F4B183</color>
+    <color name="summer_accent">#FFD966</color>
+    <color name="summer_background">#DFA67B</color>
+    <color name="summer_error">#007bff</color>
+
     <color name="fall_primary">#ff8400</color>
     <color name="fall_secondary">#ffc68a</color>
     <color name="fall_accent">#ffc68a</color>
+    <color name="fall_background">#fffcf3</color>
     <color name="fall_error">#007bff</color>
 
     <color name="winter_primary">#00A9FF</color>

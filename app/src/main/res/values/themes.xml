@@ -1,12 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.CSCI335_Final_Project" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/fall_primary</item>
-        <item name="colorPrimaryDark">@color/fall_accent</item>
-        <item name="colorAccent">@color/fall_accent</item>
-        <item name="customBackground">@color/fall_background</item>
-        <item name="customError">@color/fall_error</item>
-        <item name="customSecondary">@color/fall_secondary</item>
+        <item name="colorPrimary">@color/default_primary</item>
+        <item name="colorPrimaryDark">@color/default_accent</item>
+        <item name="colorAccent">@color/default_accent</item>
+        <item name="customBackground">@color/default_background</item>
+        <item name="customError">@color/default_error</item>
+        <item name="customSecondary">@color/default_secondary</item>
         <item name="customText">@color/text</item>
     </style>
 
@@ -27,6 +27,26 @@
         <item name="customBackground">@color/winter_background</item>
         <item name="customError">@color/winter_error</item>
         <item name="customSecondary">@color/winter_secondary</item>
+        <item name="customText">@color/text</item>
+    </style>
+
+    <style name="Spring.Theme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/spring_primary</item>
+        <item name="colorPrimaryDark">@color/spring_accent</item>
+        <item name="colorAccent">@color/spring_accent</item>
+        <item name="customBackground">@color/spring_background</item>
+        <item name="customError">@color/spring_error</item>
+        <item name="customSecondary">@color/spring_secondary</item>
+        <item name="customText">@color/text</item>
+    </style>
+
+    <style name="Summer.Theme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/summer_primary</item>
+        <item name="colorPrimaryDark">@color/summer_accent</item>
+        <item name="colorAccent">@color/summer_accent</item>
+        <item name="customBackground">@color/summer_background</item>
+        <item name="customError">@color/summer_error</item>
+        <item name="customSecondary">@color/summer_secondary</item>
         <item name="customText">@color/text</item>
     </style>
 

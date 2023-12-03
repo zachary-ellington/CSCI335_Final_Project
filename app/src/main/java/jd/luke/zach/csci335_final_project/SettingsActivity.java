@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -16,51 +17,81 @@ public class SettingsActivity extends AppCompatActivity {
 
     SwitchCompat sound;
     SwitchCompat vibration;
+    SharedPreferences prefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Winter_Theme);
+        // get the user preferences and make the editor
+        prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        setTheme(prefs.getInt("themePref", R.style.Base_Theme_CSCI335_Final_Project));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        // get the user preferences and make the editor
-        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        // define the spinners
-        // spinner for difficulty
-        String[] difficultySpinner = new String[] {
-                "Easy", "Medium", "Hard"
-        };
-        AutoCompleteTextView diffDropdown = findViewById(R.id.difficulty_dropdown);
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_dropdown_item,
-                difficultySpinner);
-        diffDropdown.setText(prefs.getString("diffPref", "Easy")); // set the default text on entering
-        diffDropdown.setAdapter(adapter1);
-        diffDropdown.setOnItemClickListener((parent, view, position, id) -> {
-            String selectedItem = adapter1.getItem(position);
-            editor.putString("diffPref", selectedItem);
-            editor.commit();
-        });
 
 
-        // spinner for color themes
-        String[] themeSpinner = new String[] {
-                "Default", "Spring", "Summer", "Fall", "Winter"
-        };
-        AutoCompleteTextView themeDropdown = findViewById(R.id.themes_dropdown);
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_dropdown_item,
-                themeSpinner);
-        themeDropdown.setText(prefs.getString("themePref", "Default")); // set the default text on entering
-        themeDropdown.setAdapter(adapter2);
-        themeDropdown.setOnItemClickListener((parent, view, position, id) -> {
-            String selectedItem = adapter2.getItem(position);
-            editor.putString("themePref", selectedItem);
-            editor.commit();
-        });
+        // don't ask me why, but not having this handler delay here makes it not work
+        // correctly when recreating the activity to update colors at runtime
+        new Handler().postDelayed(() -> {
+            // define the spinners
+            // spinner for difficulty
+            String[] difficultySpinner = new String[]{
+                    "Easy", "Medium", "Hard"
+            };
+            AutoCompleteTextView diffDropdown = findViewById(R.id.difficulty_dropdown);
+            diffDropdown.clearFocus();
+            ArrayAdapter<String> adapter1 = new ArrayAdapter<>(
+                    this,
+                    android.R.layout.simple_spinner_dropdown_item,
+                    difficultySpinner);
+            diffDropdown.setText(prefs.getString("diffPref", "Easy")); // set the default text on entering
+            diffDropdown.setAdapter(adapter1);
+            diffDropdown.setOnItemClickListener((parent, view, position, id) -> {
+                String selectedItem = adapter1.getItem(position);
+                editor.putString("diffPref", selectedItem);
+                editor.commit();
+            });
+
+            // spinner for color themes
+            String[] themeSpinner = new String[]{
+                    "Default", "Spring", "Summer", "Fall", "Winter"
+            };
+            AutoCompleteTextView themeDropdown = findViewById(R.id.themes_dropdown);
+            themeDropdown.clearFocus();
+            ArrayAdapter<String> adapter2 = new ArrayAdapter<>(
+                    this,
+                    android.R.layout.simple_spinner_dropdown_item,
+                    themeSpinner);
+            themeDropdown.setText(prefs.getString("themePrefStr", "Default")); // set the default text on entering
+            themeDropdown.setAdapter(adapter2);
+            themeDropdown.setOnItemClickListener((parent, view, position, id) -> {
+                // themePrefStr for display purposes
+                // themePref for functionality purposes
+                String selectedItem = adapter2.getItem(position);
+                editor.putString("themePrefStr", selectedItem);
+                // since selectedItem is a string, we have to do this in order to retrieve the proper value later in code
+                switch (selectedItem) {
+                    case "Default":
+                        editor.putInt("themePref", R.style.Base_Theme_CSCI335_Final_Project);
+                        break;
+                    case "Spring":
+                        editor.putInt("themePref", R.style.Spring_Theme);
+                        break;
+                    case "Summer":
+                        editor.putInt("themePref", R.style.Summer_Theme);
+                        break;
+                    case "Fall":
+                        editor.putInt("themePref", R.style.Fall_Theme);
+                        break;
+                    case "Winter":
+                        editor.putInt("themePref", R.style.Winter_Theme);
+                        break;
+                }
+                editor.commit();
+                recreate();
+            });
+        }, 500);
 
 
         // define the switches
@@ -72,23 +103,21 @@ public class SettingsActivity extends AppCompatActivity {
         vibration.setChecked(prefs.getBoolean("doVibrate", true));
 
         // switch listeners
-        sound.setOnCheckedChangeListener((sw, isChecked)-> {
-            if(isChecked) {
+        sound.setOnCheckedChangeListener((sw, isChecked) -> {
+            if (isChecked) {
                 editor.putBoolean("playSound", true);
                 editor.commit();
-            }
-            else {
+            } else {
                 editor.putBoolean("playSound", false);
                 editor.commit();
             }
         });
 
-        vibration.setOnCheckedChangeListener((sw, isChecked)-> {
-            if(isChecked) {
+        vibration.setOnCheckedChangeListener((sw, isChecked) -> {
+            if (isChecked) {
                 editor.putBoolean("doVibrate", true);
                 editor.commit();
-            }
-            else {
+            } else {
                 editor.putBoolean("doVibrate", false);
                 editor.commit();
             }
@@ -102,12 +131,10 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home) {
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-}
+    }
