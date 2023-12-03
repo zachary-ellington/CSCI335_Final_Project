@@ -1,9 +1,33 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.CSCI335_Final_Project" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/accent</item>
-        <item name="colorAccent">@color/accent</item>
+        <item name="colorPrimary">@color/fall_primary</item>
+        <item name="colorPrimaryDark">@color/fall_accent</item>
+        <item name="colorAccent">@color/fall_accent</item>
+        <item name="customBackground">@color/fall_background</item>
+        <item name="customError">@color/fall_error</item>
+        <item name="customSecondary">@color/fall_secondary</item>
+        <item name="customText">@color/text</item>
+    </style>
+
+    <style name="Fall.Theme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/fall_primary</item>
+        <item name="colorPrimaryDark">@color/fall_accent</item>
+        <item name="colorAccent">@color/fall_accent</item>
+        <item name="customBackground">@color/fall_background</item>
+        <item name="customError">@color/fall_error</item>
+        <item name="customSecondary">@color/fall_secondary</item>
+        <item name="customText">@color/text</item>
+    </style>
+
+    <style name="Winter.Theme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/winter_primary</item>
+        <item name="colorPrimaryDark">@color/winter_accent</item>
+        <item name="colorAccent">@color/winter_accent</item>
+        <item name="customBackground">@color/winter_background</item>
+        <item name="customError">@color/winter_error</item>
+        <item name="customSecondary">@color/winter_secondary</item>
+        <item name="customText">@color/text</item>
     </style>
 
 

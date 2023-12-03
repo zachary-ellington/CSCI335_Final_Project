@@ -3,9 +3,15 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="text">#130e01</color>
-    <color name="background">#fffcf3</color>
-    <color name="primary">#ff8400</color>
-    <color name="secondary">#ffc68a</color>
-    <color name="accent">#ffc68a</color>
-    <color name="error">#007bff</color>
+    <color name="fall_background">#fffcf3</color>
+    <color name="fall_primary">#ff8400</color>
+    <color name="fall_secondary">#ffc68a</color>
+    <color name="fall_accent">#ffc68a</color>
+    <color name="fall_error">#007bff</color>
+
+    <color name="winter_primary">#00A9FF</color>
+    <color name="winter_secondary">#A0E9FF</color>
+    <color name="winter_accent">#89CFF3</color>
+    <color name="winter_background">#FFF5FD</color>
+    <color name="winter_error">#FF0000</color>
 </resources>

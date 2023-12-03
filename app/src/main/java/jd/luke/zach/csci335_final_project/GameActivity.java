@@ -12,6 +12,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -28,11 +29,10 @@ import java.util.Objects;
 
 public class GameActivity extends AppCompatActivity {
 
-    private Button currentCell; // cell that the user last clicked on
-    public int mistakes = 0;
     Button[][] buttons = new Button[9][9];
-    SharedPreferences prefs;
+    SharedPreferences prefs; // user preferences
 
+    // define puzzles
     String[] puzzles = new String[] {
             "490671030000402800500900070104500000009000100030010007000709205000200016920005040",
             "000500002700600800001000300076050000002000000080000700390072600020000090050018030",
@@ -80,11 +80,18 @@ public class GameActivity extends AppCompatActivity {
             "962314857134587269578296413847962531651873942329145786285639174793451628416728395"
     };
 
+
+    // define puzzle elements
+    private Button currentCell; // cell that the user last clicked on
+    public int mistakes = 0;
     int puzzle_in_use_index = 0;
-    TextView mistake_counter;
     int mistake_limit = 3;
 
     HashMap<Button, Integer> button_map = new HashMap<>();
+
+    // displaying timer and mistakes below
+    TextView mistake_counter;
+
 
     // whole bunch of timer stuff
     TextView timerTextView;
@@ -107,23 +114,40 @@ public class GameActivity extends AppCompatActivity {
         }
     };
 
+    // initialize colors to use depending on theme
+    int primaryColor;
+    int secondaryColor;
+    int accentColor;
+    int backgroundColor;
+    int textColor;
+    int errorColor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Winter_Theme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        // make the colors happen
+        defineColors();
+
+        // define user preferences
         prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
+        // create media player for button clicks
         final MediaPlayer click_sound = MediaPlayer.create(this, R.raw.ping);
         timerTextView = findViewById(R.id.timer);
-
+        // get mistake counter id
         mistake_counter = findViewById(R.id.mistakes);
 
+        // toolbar stuff
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Sudoku");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        // start defining board
         LinearLayout sudokuGrid = findViewById(R.id.sudoku_grid);
         // gives the whole board a thicker outer border
         sudokuGrid.setBackground(getDrawable(R.drawable.grid_border));
@@ -164,7 +188,7 @@ public class GameActivity extends AppCompatActivity {
                         setCurrentCell(clickedCell);
                     setClickedCellStyle(clickedCell); // styling for
                     setCurrentCell(clickedCell);
-                }); // to set color: button.setTextColor(getResources().getColor(R.color.primary));
+                }); // to set color: button.setTextColor(getResources().getColor(R.color.fall_primary));
 
 
                 grid_row.addView(button);
@@ -191,7 +215,7 @@ public class GameActivity extends AppCompatActivity {
             if (i < 9)
             {
                 button.setText(String.format(String.valueOf(i + 1)));
-                button.setTextColor(getColor(R.color.text));
+                button.setTextColor(textColor);
                 button.setSoundEffectsEnabled(false);
                 button.setOnClickListener(v -> { // on click listener for bottom input buttons
                     if (getCurrentCell() != null) {
@@ -246,7 +270,7 @@ public class GameActivity extends AppCompatActivity {
                 char curr_char = current_puzzle.charAt(i * 9 + j);
                 if(curr_char != '0') {
                     buttons[i][j].setText("" + curr_char);
-                    buttons[i][j].setTextColor(getColor(R.color.text));
+                    buttons[i][j].setTextColor(textColor);
                 }
                 else {
                     buttons[i][j].setText("");
@@ -334,10 +358,10 @@ public class GameActivity extends AppCompatActivity {
 
         // buttons[row + 1][col + 1].setText("HELP");
         if(correct) {
-            getCurrentCell().setTextColor(getColor(R.color.primary));
+            getCurrentCell().setTextColor(primaryColor);
         }
         else {
-            getCurrentCell().setTextColor(getColor(R.color.error));
+            getCurrentCell().setTextColor(errorColor);
         }
     }
 
@@ -378,7 +402,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void darkenButton(Button button, int darkness) {
         float[] hsv = new float[3]; // hue, saturation, value
-        int color = ContextCompat.getColor(this, R.color.background);
+        int color = ContextCompat.getColor(this, R.color.fall_background);
         Color.colorToHSV(color, hsv);
         hsv[2] *= 1.0 - (darkness / 100.0); // adjust brightness; 100 is max darkness
         hsv[1] = 0.05f;
@@ -479,7 +503,7 @@ public class GameActivity extends AppCompatActivity {
             Intent intent = new Intent(this, GameOverActivity.class);
             startActivity(intent);
             finish();
-        }, 1000);
+        }, 500);
 
 
     }
@@ -500,5 +524,21 @@ public class GameActivity extends AppCompatActivity {
         if(prefs.getBoolean("doVibrate", true)) {
             vib.vibrate(duration);
         }
+    }
+
+    public void defineColors() {
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true);
+        primaryColor = typedValue.data;
+        getTheme().resolveAttribute(R.attr.customSecondary, typedValue, true);
+        secondaryColor = typedValue.data;
+        getTheme().resolveAttribute(androidx.appcompat.R.attr.colorAccent, typedValue, true);
+        accentColor = typedValue.data;
+        getTheme().resolveAttribute(R.attr.customBackground, typedValue, true);
+        backgroundColor = typedValue.data;
+        getTheme().resolveAttribute(R.attr.customError, typedValue, true);
+        errorColor = typedValue.data;
+        getTheme().resolveAttribute(R.attr.customText, typedValue, true);
+        textColor = typedValue.data;
     }
 }

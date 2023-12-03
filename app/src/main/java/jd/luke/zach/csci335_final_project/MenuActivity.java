@@ -12,6 +12,7 @@ public class MenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Winter_Theme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
     }

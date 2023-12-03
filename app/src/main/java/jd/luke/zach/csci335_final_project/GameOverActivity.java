@@ -13,8 +13,10 @@ public class GameOverActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Fall_Theme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_over);
+
 
         Toolbar myToolbar = findViewById(R.id.toolbar8);
         setSupportActionBar(myToolbar);

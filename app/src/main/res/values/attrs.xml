@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="customBackground" format="color"/>
+    <attr name="customSecondary" format="color"/>
+    <attr name="customError" format="color"/>
+    <attr name="customText" format="color"/>
+</resources>

@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Main background color of the button -->
+    <!-- Main fall_background color of the button -->
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/background"/> <!-- Set your button's background color -->
+            <solid android:color="?attr/customBackground"/> <!-- Set your button's fall_background color -->
         </shape>
     </item>
 
     <!-- Normal thickness for Top and Right borders -->
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/background"/> <!-- Transparent fill -->
+            <solid android:color="?attr/customBackground"/> <!-- Transparent fill -->
             <stroke
                 android:width="1dp"
-                android:color="@color/secondary"/> <!-- Set border color and thickness -->
+                android:color="?attr/customSecondary"/> <!-- Set border color and thickness -->
         </shape>
     </item>
 
     <!-- Thicker Left border -->
     <item android:top="-2dp" android:right="-2dp" android:bottom="-1dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/background"/> <!-- Transparent fill -->
+            <solid android:color="?attr/customBackground"/> <!-- Transparent fill -->
             <stroke
                 android:width="3dp"
-                android:color="@color/secondary"
+                android:color="?attr/customSecondary"
                 android:dashWidth="0dp"
                 android:dashGap="0dp"/> <!-- Thicker left border -->
         </shape>
@@ -32,10 +32,10 @@
     <!-- Thicker Bottom border -->
     <item android:top="-2dp" android:right="-2dp" android:left="0dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/background"/> <!-- Transparent fill -->
+            <solid android:color="?attr/customBackground"/> <!-- Transparent fill -->
             <stroke
                 android:width="3dp"
-                android:color="@color/secondary"
+                android:color="?attr/customSecondary"
                 android:dashWidth="0dp"
                 android:dashGap="0dp"/> <!-- Thicker bottom border -->
         </shape>

@@ -7,6 +7,8 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import java.util.Objects;
 
@@ -16,8 +18,19 @@ public class SettingsActivity extends AppCompatActivity {
     SwitchCompat vibration;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Fall_Theme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        String[] arraySpinner = new String[] {
+                "Default", "Spring", "Summer", "Fall", "Winter"
+        };
+        Spinner s = (Spinner) findViewById(R.id.Spinner01);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, arraySpinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        s.setAdapter(adapter);
+
 
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
