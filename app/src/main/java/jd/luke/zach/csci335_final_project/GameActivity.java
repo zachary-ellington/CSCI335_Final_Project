@@ -161,7 +161,7 @@ public class GameActivity extends AppCompatActivity {
             editor.commit();
         }
 
-        boolean should_start_new_game = intent.getBooleanExtra(GameActivity.EXTRA_START_NEW_GAME, true);
+        boolean should_start_new_game = intent.getBooleanExtra(GameActivity.EXTRA_START_NEW_GAME, false);
         if(should_start_new_game) {
             editor.remove("mistakes");
             editor.remove("userPuzzle");
