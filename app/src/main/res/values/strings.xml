@@ -39,4 +39,6 @@
 
     <string name="Sound">Sound</string>
     <string name="vibration">Vibration</string>
+    <string name="win_message">You Win!</string>
+    <string name="lose_message">You Lose!</string>
 </resources>
