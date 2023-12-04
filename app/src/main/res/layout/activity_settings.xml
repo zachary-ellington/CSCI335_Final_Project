@@ -28,8 +28,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/themes_dropdown_holder"
-        app:startIconContentDescription="@string/settings"
-        tools:layout_editor_absoluteY="128dp">
+        app:startIconContentDescription="@string/difficulty"
+        tools:layout_editor_absoluteY="128dp"
+        >
 
 
         <AutoCompleteTextView
@@ -39,7 +40,8 @@
             android:hint="@string/difficulty"
             android:backgroundTint="?attr/customSecondary"
             android:inputType="none"
-            android:textCursorDrawable="@null" />
+            android:textCursorDrawable="@null"
+            tools:ignore="SpeakableTextPresent" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -51,7 +53,7 @@
         android:layout_marginBottom="64dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:startIconContentDescription="@string/settings"
+        app:startIconContentDescription="@string/color_themes"
         app:layout_constraintBottom_toTopOf="@+id/SoundSwitch"
         tools:layout_editor_absoluteY="283dp">
 
@@ -61,10 +63,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/color_themes"
-
             android:backgroundTint="?attr/customSecondary"
             android:inputType="none"
-            android:textCursorDrawable="@null" />
+            android:textCursorDrawable="@null"
+            tools:ignore="SpeakableTextPresent"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 

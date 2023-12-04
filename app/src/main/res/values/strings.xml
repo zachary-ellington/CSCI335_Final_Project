@@ -31,6 +31,8 @@
     <string name="highlightedCell">Highlighted Cell</string>
     <string name="placeDigit">Tap a digit at the bottom to fill a cell. If it\'s wrong, it turns red and your phone vibrates. To erase, choose the cell and hit backspace. Careful, too many mistakes end your game based on difficulty level.</string>
     <string name="continue_game">Continue Game</string>
+    <string name="example1SD">Example of highlighted cell </string>
+    <string name="example2SD">Example of right and wrong answers</string>
 
     <string name="Sound">Sound</string>
     <string name="vibration">Vibration</string>
