@@ -15,31 +15,41 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintBottom_toTopOf="@+id/retry_button"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/game_over_display_message">
 
+        <LinearLayout
+            android:id="@+id/game_over_board"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/game_over_display_message"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:gravity="center"
         android:textColor="@color/text"
-        android:textSize="36sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar8"
+        app:layout_constraintTop_toBottomOf="@+id/game_over_toolbar"
         app:layout_constraintWidth_max="300dp" />
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar8"
+        android:id="@+id/game_over_toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="?attr/customSecondary"
@@ -50,47 +60,43 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/retry_button"
         style="@style/primary_button"
-        android:layout_width="0dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/retry"
+        android:layout_marginBottom="16dp"
         android:onClick="retryPuzzle"
-        app:layout_constraintBottom_toTopOf="@+id/button5"
+        android:text="@string/retry"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/different_puzzle_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/different_puzzle_button"
         style="@style/outline_button"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:text="@string/diff_puzzle"
+        android:layout_marginBottom="16dp"
         android:onClick="nextPuzzle"
-        app:layout_constraintBottom_toTopOf="@+id/button6"
+        android:text="@string/diff_puzzle"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/game_over_to_main_menu_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/game_over_to_main_menu_button"
         style="@style/outline_button"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="16dp"
         android:onClick="toMainMenu"
         android:text="@string/main_menu"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 
-    <LinearLayout
-        android:id="@+id/game_over_board"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/game_over_board_container"
-        app:layout_constraintTop_toTopOf="@+id/game_over_board_container"
-        app:layout_constraintLeft_toLeftOf="@+id/game_over_board_container"
-        app:layout_constraintRight_toRightOf="@+id/game_over_board_container"
-        android:orientation="vertical"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

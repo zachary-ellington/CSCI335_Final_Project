@@ -6,11 +6,9 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,7 +35,7 @@ public class GameOverActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game_over);
 
 
-        Toolbar myToolbar = findViewById(R.id.toolbar8);
+        Toolbar myToolbar = findViewById(R.id.game_over_toolbar);
         setSupportActionBar(myToolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Game Over");
 
@@ -106,7 +104,7 @@ public class GameOverActivity extends AppCompatActivity {
                     text.setTextColor(errorColor);
                 }
 
-                text.setTextSize(30);
+                text.setTextSize(20);
 
                 grid_row.addView(text);
             }
