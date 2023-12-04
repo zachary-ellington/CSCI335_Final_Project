@@ -230,7 +230,7 @@ public class GameActivity extends AppCompatActivity {
                 }
 
                 button.setText("");
-                button.setTextSize(30);
+                button.setTextSize(24);
 
                 button_map.put(button, row * 9 + col);
                 button.setOnClickListener(v -> { // onclick listener for cells

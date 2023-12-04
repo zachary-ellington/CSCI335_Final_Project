@@ -24,24 +24,25 @@
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginTop="64dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/themes_dropdown_holder"
-        app:startIconContentDescription="@string/difficulty"
-        tools:layout_editor_absoluteY="128dp"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/toolbar3"
+        app:startIconContentDescription="@string/difficulty">
 
 
         <AutoCompleteTextView
             android:id="@+id/difficulty_dropdown"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/difficulty"
             android:backgroundTint="?attr/customSecondary"
+            android:hint="@string/difficulty"
             android:inputType="none"
             android:textCursorDrawable="@null"
-            tools:ignore="SpeakableTextPresent" />
+            tools:ignore="SpeakableTextPresent"            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -50,22 +51,25 @@
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:startIconContentDescription="@string/color_themes"
-        app:layout_constraintBottom_toTopOf="@+id/SoundSwitch"
-        tools:layout_editor_absoluteY="283dp">
+        app:layout_constraintTop_toBottomOf="@+id/difficulty_dropdown_holder"
+        app:startIconContentDescription="@string/color_themes">
 
 
         <AutoCompleteTextView
             android:id="@+id/themes_dropdown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/color_themes"
             android:backgroundTint="?attr/customSecondary"
+            android:hint="@string/color_themes"
             android:inputType="none"
             android:textCursorDrawable="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="SpeakableTextPresent"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,21 +78,24 @@
         android:id="@+id/SoundSwitch"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginTop="32dp"
         android:contentDescription="@string/Sound"
         android:text="@string/Sound"
-        app:layout_constraintBottom_toTopOf="@+id/VibrationSwitch"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/themes_dropdown_holder" />
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/VibrationSwitch"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginBottom="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
         android:contentDescription="@string/vibration"
         android:text="@string/vibration"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/SoundSwitch" />
+        app:layout_constraintEnd_toEndOf="@+id/SoundSwitch"
+        app:layout_constraintTop_toBottomOf="@+id/SoundSwitch"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

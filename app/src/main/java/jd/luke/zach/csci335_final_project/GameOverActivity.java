@@ -38,7 +38,7 @@ public class GameOverActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game_over);
 
 
-        Toolbar myToolbar = findViewById(R.id.toolbar8);
+        Toolbar myToolbar = findViewById(R.id.game_over_toolbar);
         setSupportActionBar(myToolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Game Over");
 
@@ -110,7 +110,7 @@ public class GameOverActivity extends AppCompatActivity {
                     text.setTextColor(errorColor);
                 }
 
-                text.setTextSize(30);
+                text.setTextSize(20);
 
                 grid_row.addView(text);
             }
