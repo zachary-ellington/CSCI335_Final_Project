@@ -7,15 +7,36 @@
     android:background="?attr/customBackground"
     tools:context=".GameOverActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/game_over_board_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/game_over_display_message">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <TextView
         android:id="@+id/game_over_display_message"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        android:textColor="@color/text"
+        android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar8"
+        app:layout_constraintWidth_max="300dp" />
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar8"
@@ -32,6 +53,7 @@
         android:id="@+id/button4"
         style="@style/primary_button"
         android:layout_width="320dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="@string/retry"
         app:layout_constraintBottom_toTopOf="@+id/button5"
@@ -42,6 +64,7 @@
         android:id="@+id/button5"
         style="@style/outline_button"
         android:layout_width="320dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
         android:text="@string/diff_puzzle"
         app:layout_constraintBottom_toTopOf="@+id/button6"
@@ -52,6 +75,7 @@
         android:id="@+id/button6"
         style="@style/outline_button"
         android:layout_width="320dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
         android:onClick="toMainMenu"
         android:text="@string/main_menu"
@@ -59,14 +83,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/game_over_board"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/game_over_display_message">
 
-    </androidx.gridlayout.widget.GridLayout>
+    <LinearLayout
+        android:id="@+id/game_over_board"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/game_over_board_container"
+        app:layout_constraintTop_toTopOf="@+id/game_over_board_container"
+        app:layout_constraintLeft_toLeftOf="@+id/game_over_board_container"
+        app:layout_constraintRight_toRightOf="@+id/game_over_board_container"
+        android:orientation="vertical"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

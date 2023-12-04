@@ -16,7 +16,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 public class MenuActivity extends AppCompatActivity {
     SharedPreferences prefs;
 
-    public static final String EXTRA_START_NEW_GAME = "com.jd.luke.zach.csci335_final_project";
+    public static final String EXTRA_START_NEW_GAME = "jd.luke.zach.csci335_final_project.MenuActivity.start_new_game";
     Button continue_button;
 
     @Override
