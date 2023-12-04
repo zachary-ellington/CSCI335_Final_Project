@@ -37,13 +37,10 @@ public class GameActivity extends AppCompatActivity {
     SharedPreferences prefs; // user preferences
     SharedPreferences.Editor editor;
 
-    public static final String EXTRA_PUZZLE_INPUT = "jd.luke.zach.csci335_final_project.GameActivity.puzzle_input";
-    public static final String EXTRA_PUZZLE_SOLUTION = "jd.luke.zach.csci335_final_project.GameActivity.puzzle_solution";
-    public static final String EXTRA_PUZZLE_ORIGINAL = "jd.luke.zach.csci335_final_project.GameActivity.puzzle_original";
-    public static final String EXTRA_PUZZLE_PRIMARY_COLOR = "jd.luke.zach.csci335_final_project.GameActivity.primary_color";
-    public static final String EXTRA_PUZZLE_ERROR_COLOR = "jd.luke.zach.csci335_final_project.GameActivity.error_color";
-    public static final String EXTRA_PUZZLE_TEXT_COLOR = "jd.luke.zach.csci335_final_project.GameActivity.text_color";
-    public static final String EXTRA_WIN = "jd.luke.zach.csci335_final_project.GameActivity.win";
+    public static final String EXTRA_START_NEW_GAME = "jd.luke.zach.csci335_final_project.GameActivity.start_new_game";
+//    public static final String EXTRA_RETRY_PUZZLE = "jd.luke.zach.csci335_final_project.GameActivity.retry";
+    public static final String EXTRA_NEXT_PUZZLE = "jd.luke.zach.csci335_final_project.GameActivity.next";
+
 
     // define puzzles
     private String[] puzzles = new String[] {
@@ -99,7 +96,7 @@ public class GameActivity extends AppCompatActivity {
     // define puzzle elements
     private Button currentCell; // cell that the user last clicked on
     public int mistakes;
-    int puzzle_in_use_index = 0;
+    private int puzzle_in_use_index = 0;
     int mistake_limit ;
 
     HashMap<Button, Integer> button_map = new HashMap<>();
@@ -147,7 +144,24 @@ public class GameActivity extends AppCompatActivity {
         editor = prefs.edit();
         setTheme(prefs.getInt("themePref", R.style.Base_Theme_CSCI335_Final_Project));
 
-        boolean should_start_new_game = intent.getBooleanExtra(MenuActivity.EXTRA_START_NEW_GAME, true);
+        // get current index value
+        int puzzle_index = prefs.getInt("puzzleIndex", -1);
+        if (puzzle_index == -1) {
+            puzzle_in_use_index = 0;
+            editor.putInt("puzzleIndex", puzzle_in_use_index);
+            editor.commit();
+        } else {
+            puzzle_in_use_index = puzzle_index;
+        }
+
+        boolean is_next_puzzle = intent.getBooleanExtra(GameActivity.EXTRA_NEXT_PUZZLE, false);
+        if (is_next_puzzle) {
+            puzzle_in_use_index = (puzzle_in_use_index + 1) % puzzles.length;
+            editor.putInt("puzzleIndex", puzzle_in_use_index);
+            editor.commit();
+        }
+
+        boolean should_start_new_game = intent.getBooleanExtra(GameActivity.EXTRA_START_NEW_GAME, true);
         if(should_start_new_game) {
             editor.remove("mistakes");
             editor.remove("userPuzzle");
@@ -588,18 +602,17 @@ public class GameActivity extends AppCompatActivity {
         // delay next activity so that the sound doesn't get cut off
         new Handler().postDelayed(() -> {
             Intent intent = new Intent(this, GameOverActivity.class);
-            intent.putExtra(EXTRA_PUZZLE_INPUT, new String(puzzle_input));
-            intent.putExtra(EXTRA_PUZZLE_ORIGINAL, getCurrentPuzzle());
-            intent.putExtra(EXTRA_PUZZLE_SOLUTION, getCurrentPuzzleSolution());
-            intent.putExtra(EXTRA_PUZZLE_PRIMARY_COLOR, primaryColor);
-            intent.putExtra(EXTRA_PUZZLE_ERROR_COLOR, errorColor);
-            intent.putExtra(EXTRA_PUZZLE_TEXT_COLOR, textColor);
-            intent.putExtra(EXTRA_WIN, result == 2);
+            intent.putExtra(GameOverActivity.EXTRA_PUZZLE_INPUT, new String(puzzle_input));
+            intent.putExtra(GameOverActivity.EXTRA_PUZZLE_ORIGINAL, getCurrentPuzzle());
+            intent.putExtra(GameOverActivity.EXTRA_PUZZLE_SOLUTION, getCurrentPuzzleSolution());
+            intent.putExtra(GameOverActivity.EXTRA_PUZZLE_PRIMARY_COLOR, primaryColor);
+            intent.putExtra(GameOverActivity.EXTRA_PUZZLE_ERROR_COLOR, errorColor);
+            intent.putExtra(GameOverActivity.EXTRA_PUZZLE_TEXT_COLOR, textColor);
+            intent.putExtra(GameOverActivity.EXTRA_WIN, result == 2);
 
             startActivity(intent);
             finish();
         }, 500);
-
 
     }
 

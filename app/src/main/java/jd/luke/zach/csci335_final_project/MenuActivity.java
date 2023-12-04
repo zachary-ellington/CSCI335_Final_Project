@@ -16,7 +16,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 public class MenuActivity extends AppCompatActivity {
     SharedPreferences prefs;
 
-    public static final String EXTRA_START_NEW_GAME = "jd.luke.zach.csci335_final_project.MenuActivity.start_new_game";
     Button continue_button;
 
     @Override
@@ -46,14 +45,17 @@ public class MenuActivity extends AppCompatActivity {
             dialog.setNeutralButton(R.string.dialog_decline, (dialogInterface, id) -> dialogInterface.cancel());
             dialog.setPositiveButton(R.string.dialog_accept, (dialogInterface, id) -> {
                 Intent intent = new Intent(this, GameActivity.class);
-                intent.putExtra(EXTRA_START_NEW_GAME, true);
-
+                intent.putExtra(GameActivity.EXTRA_START_NEW_GAME, true);
+                intent.putExtra(GameActivity.EXTRA_NEXT_PUZZLE, true);
+//                intent.putExtra(GameActivity.EXTRA_RETRY_PUZZLE, false);
                 startActivity(intent);
             });
             dialog.show();
         } else {
             Intent intent = new Intent(this, GameActivity.class);
-            intent.putExtra(EXTRA_START_NEW_GAME, true);
+            intent.putExtra(GameActivity.EXTRA_START_NEW_GAME, true);
+            intent.putExtra(GameActivity.EXTRA_NEXT_PUZZLE, true);
+//            intent.putExtra(GameActivity.EXTRA_RETRY_PUZZLE, false);
 
             startActivity(intent);
         }
@@ -61,9 +63,12 @@ public class MenuActivity extends AppCompatActivity {
 
     public void continueGame(View view) {
         String user_puzzle = prefs.getString("userPuzzle", "none");
-        if (user_puzzle != "none") {
+        if (!user_puzzle.equals("none")) {
             Intent intent = new Intent(this, GameActivity.class);
-            intent.putExtra(EXTRA_START_NEW_GAME, false);
+            intent.putExtra(GameActivity.EXTRA_START_NEW_GAME, false);
+            intent.putExtra(GameActivity.EXTRA_NEXT_PUZZLE, false);
+//            intent.putExtra(GameActivity.EXTRA_RETRY_PUZZLE, false);
+
             startActivity(intent);
         }
     }

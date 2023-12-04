@@ -20,6 +20,15 @@ import java.util.Objects;
 public class GameOverActivity extends AppCompatActivity {
     SharedPreferences prefs;
 
+
+    public static final String EXTRA_PUZZLE_INPUT = "jd.luke.zach.csci335_final_project.GameOverActivity.puzzle_input";
+    public static final String EXTRA_PUZZLE_SOLUTION = "jd.luke.zach.csci335_final_project.GameOverActivity.puzzle_solution";
+    public static final String EXTRA_PUZZLE_ORIGINAL = "jd.luke.zach.csci335_final_project.GameOverActivity.puzzle_original";
+    public static final String EXTRA_PUZZLE_PRIMARY_COLOR = "jd.luke.zach.csci335_final_project.GameOverActivity.primary_color";
+    public static final String EXTRA_PUZZLE_ERROR_COLOR = "jd.luke.zach.csci335_final_project.GameOverActivity.error_color";
+    public static final String EXTRA_PUZZLE_TEXT_COLOR = "jd.luke.zach.csci335_final_project.GameOverActivity.text_color";
+    public static final String EXTRA_WIN = "jd.luke.zach.csci335_final_project.GameOverActivity.win";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
@@ -33,7 +42,7 @@ public class GameOverActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle("Game Over");
 
         Intent intent = getIntent();
-        boolean did_win = intent.getBooleanExtra(GameActivity.EXTRA_WIN, false);
+        boolean did_win = intent.getBooleanExtra(GameOverActivity.EXTRA_WIN, false);
 
         TextView game_over_message_view = findViewById(R.id.game_over_display_message);
         if (did_win)
@@ -41,12 +50,12 @@ public class GameOverActivity extends AppCompatActivity {
         else
             game_over_message_view.setText(R.string.lose_message);
 
-        String puzzle_input = intent.getStringExtra(GameActivity.EXTRA_PUZZLE_INPUT);
-        String puzzle_solution = intent.getStringExtra(GameActivity.EXTRA_PUZZLE_SOLUTION);
-        String puzzle_original = intent.getStringExtra(GameActivity.EXTRA_PUZZLE_ORIGINAL);
-        int primaryColor = intent.getIntExtra(GameActivity.EXTRA_PUZZLE_PRIMARY_COLOR, getColor(R.color.default_primary));
-        int errorColor = intent.getIntExtra(GameActivity.EXTRA_PUZZLE_ERROR_COLOR, getColor(R.color.default_error));
-        int textColor = intent.getIntExtra(GameActivity.EXTRA_PUZZLE_ORIGINAL, getColor(R.color.text));
+        String puzzle_input = intent.getStringExtra(GameOverActivity.EXTRA_PUZZLE_INPUT);
+        String puzzle_solution = intent.getStringExtra(GameOverActivity.EXTRA_PUZZLE_SOLUTION);
+        String puzzle_original = intent.getStringExtra(GameOverActivity.EXTRA_PUZZLE_ORIGINAL);
+        int primaryColor = intent.getIntExtra(GameOverActivity.EXTRA_PUZZLE_PRIMARY_COLOR, getColor(R.color.default_primary));
+        int errorColor = intent.getIntExtra(GameOverActivity.EXTRA_PUZZLE_ERROR_COLOR, getColor(R.color.default_error));
+        int textColor = intent.getIntExtra(GameOverActivity.EXTRA_PUZZLE_ORIGINAL, getColor(R.color.text));
 
 
         LinearLayout sudokuGrid = findViewById(R.id.game_over_board);
@@ -109,4 +118,30 @@ public class GameOverActivity extends AppCompatActivity {
     public void toMainMenu(View view) {
         finish();
     }
+
+    public void retryPuzzle(View view) {
+        Intent intent = new Intent(this, GameActivity.class);
+
+        intent.putExtra(GameActivity.EXTRA_START_NEW_GAME, true);
+//        intent.putExtra(GameActivity.EXTRA_RETRY_PUZZLE, true);
+        intent.putExtra(GameActivity.EXTRA_NEXT_PUZZLE, false);
+
+        startActivity(intent);
+        finish();
+    }
+
+
+    public void nextPuzzle(View view) {
+        Intent intent = new Intent(this, GameActivity.class);
+
+        intent.putExtra(GameActivity.EXTRA_START_NEW_GAME, true);
+//        intent.putExtra(GameActivity.EXTRA_RETRY_PUZZLE, false);
+        intent.putExtra(GameActivity.EXTRA_NEXT_PUZZLE, true);
+
+        startActivity(intent);
+        finish();
+    }
+
+
+
 }
