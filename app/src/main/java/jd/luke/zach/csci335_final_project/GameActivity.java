@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -26,6 +27,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -125,12 +128,14 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+
         // define user preferences
         prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         editor = prefs.edit();
         setTheme(prefs.getInt("themePref", R.style.Base_Theme_CSCI335_Final_Project));
 
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
         // set difficulty
@@ -261,7 +266,14 @@ public class GameActivity extends AppCompatActivity {
         }
         startTime = System.currentTimeMillis();
         timerHandler.postDelayed(timerRunnable, 0); // start timer
-        fillBoard(prefs.getString("userPuzzle", "none"));
+
+        boolean should_start_new_game = intent.getBooleanExtra(MenuActivity.EXTRA_START_NEW_GAME, true);
+        if (should_start_new_game) {
+            fillBoard("none");
+        } else {
+            fillBoard(prefs.getString("userPuzzle", "none"));
+        }
+
     }
 
     // ************************************************************************************************************
@@ -528,24 +540,7 @@ public class GameActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             // Handle the Up/Home button
 
-            // 1. Instantiate an AlertDialog.Builder with its constructor.
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-// 2. Chain together various setter methods to set the dialog characteristics.
-            builder.setMessage(R.string.exit_dialog_message)
-                    .setTitle(R.string.exit_dialog_title);
-// 3. Get the AlertDialog.
-
-            //set properties of the buttons inside the dialog
-            builder.setPositiveButton(R.string.dialog_accept, (dialog, id) -> {
-                // User taps OK button.
-                finish();
-            });
-            builder.setNegativeButton(R.string.dialog_decline, (dialog, id) -> {
-                // User cancels the dialog
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            onBackPressed();
             return true;
         } else if (item.getItemId() == R.id.action_settings) {
             // Handle the settings action
