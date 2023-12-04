@@ -32,6 +32,7 @@ import java.util.Objects;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class GameActivity extends AppCompatActivity {
+    Boolean stillGoing = true;
 
     Button[][] buttons = new Button[9][9];
     SharedPreferences prefs; // user preferences
@@ -304,7 +305,7 @@ public class GameActivity extends AppCompatActivity {
     //save the board on pause
     @Override
     public void onPause() {
-        if(!isFinishing()) {
+        if(stillGoing) {
             editor.putString("userPuzzle", new String(puzzle_input));
             editor.commit();
         }
@@ -595,7 +596,7 @@ public class GameActivity extends AppCompatActivity {
             intent.putExtra(EXTRA_PUZZLE_ERROR_COLOR, errorColor);
             intent.putExtra(EXTRA_PUZZLE_TEXT_COLOR, textColor);
             intent.putExtra(EXTRA_WIN, result == 2);
-
+            stillGoing = false;
             startActivity(intent);
             finish();
         }, 500);

@@ -52,7 +52,7 @@
     <Button
         android:id="@+id/button4"
         style="@style/primary_button"
-        android:layout_width="320dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="@string/retry"
@@ -63,7 +63,6 @@
     <Button
         android:id="@+id/button5"
         style="@style/outline_button"
-        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
         android:text="@string/diff_puzzle"
@@ -74,7 +73,6 @@
     <Button
         android:id="@+id/button6"
         style="@style/outline_button"
-        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
         android:onClick="toMainMenu"
