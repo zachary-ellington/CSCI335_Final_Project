@@ -87,7 +87,7 @@ public class GameActivity extends AppCompatActivity {
 
     // define puzzle elements
     private Button currentCell; // cell that the user last clicked on
-    public int mistakes = 0;
+    public int mistakes;
     int puzzle_in_use_index = 0;
     int mistake_limit = 3;
 
@@ -137,6 +137,8 @@ public class GameActivity extends AppCompatActivity {
         setTheme(prefs.getInt("themePref", R.style.Base_Theme_CSCI335_Final_Project));
 
         setContentView(R.layout.activity_game);
+        //refresh mistake count
+        mistakes = prefs.getInt("mistakes", 0);
 
         // set difficulty
         String difficulty = prefs.getString("diffPref", "Easy");
@@ -382,7 +384,7 @@ public class GameActivity extends AppCompatActivity {
         if (cell == null)
             return;
         if(cell.getCurrentTextColor() != getColor(R.color.text)) {  // this if statement avoids replacing fixed puzzle numbers
-            if (cell.getText() == btn.getText()) { // allow for removal of numbers
+            if (cell.getText().equals(btn.getText())) { // allow for removal of numbers
                 for (Button[] button : buttons) { // remove highlighting on cells with values
                     for (int j = 0; j < buttons.length; j++) {
                         if (button[j].getText().equals(getCurrentCell().getText())) {
@@ -398,8 +400,11 @@ public class GameActivity extends AppCompatActivity {
                 if (!correct) {
                     final Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     doVibrate(vibrator, 250);
-                    System.out.println("wrong");
                     mistakes++;
+                    if(checkEndGameStatus() != 1) {
+                        final MediaPlayer error_sound = MediaPlayer.create(this, R.raw.error);
+                        playSound(error_sound);
+                    }
                     // display mistake text
                     mistake_counter.setText(MessageFormat.format("Mistakes: {0}/{1}", mistakes, mistake_limit));
                 }
@@ -540,8 +545,6 @@ public class GameActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here.
         if (item.getItemId() == android.R.id.home) {
-            // Handle the Up/Home button
-
             onBackPressed();
             return true;
         } else if (item.getItemId() == R.id.action_settings) {
@@ -559,7 +562,7 @@ public class GameActivity extends AppCompatActivity {
 
     public int checkEndGameStatus() {
         // they made too many mistakes
-        if(mistakes >= 3) {
+        if(mistakes >= mistake_limit) {
             return 1;
         }
         // there are values that are unassigned or incorrect, so it's unfinished (
