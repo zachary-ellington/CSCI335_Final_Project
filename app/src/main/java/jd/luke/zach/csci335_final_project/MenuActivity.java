@@ -26,17 +26,15 @@ public class MenuActivity extends AppCompatActivity {
 
         Button continue_button = findViewById(R.id.continue_button);
         String user_puzzle = prefs.getString("userPuzzle", "none");
-        if (user_puzzle == "none") {
-            continue_button.setBackground(getDrawable(R.drawable.primary_button_grayed_out));
-        } else {
-            continue_button.setBackground(getDrawable(R.drawable.primary_button));
+        if (!user_puzzle.equals("none")) {
+            continue_button.setEnabled(true);
         }
     }
 
     public void startGame(View view) {
         String user_puzzle = prefs.getString("userPuzzle", "none");
 
-        if (user_puzzle != "none") {
+        if (!user_puzzle.equals("none")) {
             MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(this);
 
 

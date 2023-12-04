@@ -66,6 +66,7 @@
         android:layout_marginEnd="30dp"
         android:onClick="continueGame"
         android:text="@string/continue_game"
+        android:enabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
