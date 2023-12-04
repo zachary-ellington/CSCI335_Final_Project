@@ -106,7 +106,8 @@ public class GameActivity extends AppCompatActivity {
 
     // whole bunch of timer stuff
     TextView timerTextView;
-    long startTime = 0;
+    long total_time_ms = 0;
+    long lastTime = 0;
 
     //runs without a timer by reposting this handler at the end of the runnable
     Handler timerHandler = new Handler();
@@ -114,8 +115,10 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            long millis = System.currentTimeMillis() - startTime;
-            int seconds = (int) (millis / 1000);
+            long now = System.currentTimeMillis();
+            total_time_ms += now - lastTime;
+            lastTime = now;
+            int seconds = (int) (total_time_ms / 1000);
             int minutes = seconds / 60;
             seconds = seconds % 60;
 
@@ -164,6 +167,7 @@ public class GameActivity extends AppCompatActivity {
         if(should_start_new_game) {
             editor.remove("mistakes");
             editor.remove("userPuzzle");
+            editor.remove("time");
             editor.commit();
         }
 
@@ -293,16 +297,23 @@ public class GameActivity extends AppCompatActivity {
                         Log.d("Error", "Error, null reference");
                         return;
                     }
-                    if(cell != null && getCurrentPuzzle().charAt(button_map.get(cell)) == '0') {
-                        removeInput(cell);
-                        playSound(click_sound);
+                    Integer cell_index = button_map.get(cell);
+                    if(cell != null && cell_index != null) {
+                        boolean is_empty_from_puzzle = getCurrentPuzzle().charAt(cell_index) == '0';
+                        if (is_empty_from_puzzle) {
+                            removeInput(cell);
+                            playSound(click_sound);
+                        }
                     }
                 });
             }
 
             sudokuInput.addView(button);
         }
-        startTime = System.currentTimeMillis();
+
+        total_time_ms = prefs.getLong("time", 0);
+        lastTime = System.currentTimeMillis();
+
         timerHandler.postDelayed(timerRunnable, 0); // start timer
 
         if (should_start_new_game) {
@@ -323,6 +334,7 @@ public class GameActivity extends AppCompatActivity {
     public void onPause() {
         if(stillGoing) {
             editor.putString("userPuzzle", new String(puzzle_input));
+            editor.putLong("time", total_time_ms);
             editor.commit();
         }
         prefs.registerOnSharedPreferenceChangeListener(prefListener);
@@ -357,7 +369,7 @@ public class GameActivity extends AppCompatActivity {
                 for (int j = 0; j < 9; j++) {
                     char curr_char = current_puzzle.charAt(i * 9 + j);
                     if (curr_char != '0') {
-                        buttons[i][j].setText("" + curr_char);
+                        buttons[i][j].setText(String.valueOf(curr_char));
                         buttons[i][j].setTextColor(textColor);
                     } else {
                         buttons[i][j].setText("");
@@ -373,15 +385,15 @@ public class GameActivity extends AppCompatActivity {
                     char curr_char = userpuzzle.charAt(index);
                     if (curr_char != '0' && getCurrentPuzzleSolution().charAt(index) == curr_char
                             && getCurrentPuzzle().charAt(index) == '0') {
-                        buttons[i][j].setText("" + curr_char);
+                        buttons[i][j].setText(String.valueOf(curr_char));
                         buttons[i][j].setTextColor(primaryColor);
                     } else if (curr_char != '0' && getCurrentPuzzleSolution().charAt(index) != curr_char
                             && getCurrentPuzzle().charAt(index) == '0'){
-                        buttons[i][j].setText("" + curr_char);
+                        buttons[i][j].setText(String.valueOf(curr_char));
                         buttons[i][j].setTextColor(errorColor);
                     } else if (curr_char != '0' && getCurrentPuzzleSolution().charAt(index) == curr_char
                             && getCurrentPuzzle().charAt(index) != '0') {
-                        buttons[i][j].setText("" + curr_char);
+                        buttons[i][j].setText(String.valueOf(curr_char));
                         buttons[i][j].setTextColor(textColor);
                     }
                     else  {
@@ -397,7 +409,8 @@ public class GameActivity extends AppCompatActivity {
         Button cell = getCurrentCell();
         if (cell == null)
             return;
-        if(getCurrentPuzzle().charAt(button_map.get(cell)) == '0') {  // this if statement avoids replacing fixed puzzle numbers
+        Integer cell_index = button_map.get(cell);
+        if(cell_index != null && getCurrentPuzzle().charAt(cell_index) == '0') {  // this if statement avoids replacing fixed puzzle numbers
             if (cell.getText().equals(btn.getText())) { // allow for removal of numbers
                 removeInput(cell);
             } else {
@@ -426,8 +439,11 @@ public class GameActivity extends AppCompatActivity {
                     }
                     darkenButton(getCurrentCell(), 10);
                 }
-                puzzle_input[button_map.get(cell)] = btn.getText().charAt(0);
-                cell.setText(btn.getText());
+                cell_index = button_map.get(cell);
+                if (cell_index != null) {
+                    puzzle_input[cell_index] = btn.getText().charAt(0);
+                    cell.setText(btn.getText());
+                }
             }
         }
 
@@ -440,7 +456,9 @@ public class GameActivity extends AppCompatActivity {
      * @return True if the input value aligns correctly with solution value
      */
     public boolean isCorrect(Button cell, char value) {
-        int index = button_map.get(cell);
+        Integer index = button_map.get(cell);
+        if (index == null)
+            return false;
         String solution = getCurrentPuzzleSolution();
         char solution_char = solution.charAt(index);
         return value == solution_char;
@@ -448,7 +466,6 @@ public class GameActivity extends AppCompatActivity {
 
 
     public void removeInput(Button cell) {
-//        if (cell.getCurrentTextColor() != getColor(R.color.text)) { // remove highlighting on cells with values
             for (Button[] button : buttons) {
                 for (int j = 0; j < buttons.length; j++) {
                     if (button[j].getText().equals(getCurrentCell().getText()) && !button[j].getText().equals("")) {
@@ -457,9 +474,11 @@ public class GameActivity extends AppCompatActivity {
                 }
                 darkenButton(getCurrentCell(), 10);
             }
-            puzzle_input[button_map.get(cell)] = '0';
-            cell.setText("");
-//        }
+            Integer cell_index = button_map.get(cell);
+            if (cell_index != null) {
+                puzzle_input[cell_index] = '0';
+                cell.setText("");
+            }
     }
 
 
@@ -524,7 +543,10 @@ public class GameActivity extends AppCompatActivity {
 
     public ArrayList<Button> getSameRCS(Button btn) { // gets all the buttons in the same row, column, and square for a clicked cell
         ArrayList<Button> result = new ArrayList<>();
-        int index = button_map.get(btn);
+        Integer index = button_map.get(btn);
+        if (index == null) {
+            return null;
+        }
         int row = index / 9;
         int col = index % 9;
         for(int i = 0; i < 9; i++) { // adding all buttons in row and column
