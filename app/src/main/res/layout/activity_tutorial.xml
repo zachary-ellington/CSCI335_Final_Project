@@ -22,7 +22,7 @@
         android:id="@+id/rulesTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="@string/rules"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -35,20 +35,21 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/ruleDescription"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rulesTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/rulesTitle"
+        app:layout_constraintWidth_max="300dp" />
 
     <TextView
         android:id="@+id/howToPlay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="@string/howToPlay"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -62,50 +63,61 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/selectCell"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/howToPlay" />
+        app:layout_constraintTop_toBottomOf="@+id/howToPlay"
+        app:layout_constraintWidth_max="300dp" />
 
     <TextView
         android:id="@+id/placeDigitExplanation"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/placeDigit"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/tutorial_image_1"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintWidth_max="300dp" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/tutorial_image_1"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="53dp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView5"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/example1SD"
+        app:layout_constraintEnd_toStartOf="@+id/tutorial_image_2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectionExplanation"
-        app:srcCompat="@drawable/tutorialexample1"
-        android:contentDescription="@string/example1SD" />
+        app:srcCompat="@drawable/tutorialexample1" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/tutorial_image_2"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="53dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/example2SD"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:layout_constraintStart_toEndOf="@+id/tutorial_image_1"
         app:layout_constraintTop_toBottomOf="@+id/selectionExplanation"
-        app:srcCompat="@drawable/tutorialexample2"
-        android:contentDescription="@string/example2SD" />
+        app:srcCompat="@drawable/tutorialexample2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
