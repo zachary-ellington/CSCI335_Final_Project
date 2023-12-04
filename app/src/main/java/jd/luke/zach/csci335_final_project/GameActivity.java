@@ -322,7 +322,9 @@ public class GameActivity extends AppCompatActivity {
     SharedPreferences.OnSharedPreferenceChangeListener prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-            recreate(); // or update the UI elements as needed
+            if(key.equals("themePref")) {
+                recreate();
+            }
         }
     };
     public Button getCurrentCell() {
@@ -545,7 +547,6 @@ public class GameActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.action_settings) {
             // Handle the settings action
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
-            startActivity(settingsIntent);
             return true;
         } else if (item.getItemId() == R.id.action_tutorial){
             // Handle the tutorial action
