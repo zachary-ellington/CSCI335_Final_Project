@@ -7,9 +7,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/highlighted_cell_round"
+        android:icon="@drawable/sudokulogo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/highlighted_cell_round"
+        android:roundIcon="@drawable/sudokulogo"
         android:supportsRtl="true"
         android:theme="@style/Theme.CSCI335_Final_Project"
         tools:targetApi="31">
