@@ -552,6 +552,11 @@ public class GameActivity extends AppCompatActivity {
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsIntent);
             return true;
+        } else if (item.getItemId() == R.id.action_tutorial){
+            // Handle the tutorial action
+            Intent tutorialIntent = new Intent(this, TutorialActivity.class);
+            startActivity(tutorialIntent);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
