@@ -7,14 +7,14 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name = "action_settings">action_settings</string>
-    <string name="start_game">Start Game</string>
+    <string name="start_game">Start New Game</string>
     <string name="settings">Settings</string>
     <string name="logo_desc">Sudoku Logo</string>
     <string name="retry">Retry</string>
     <string name="diff_puzzle">Different Puzzle</string>
     <string name="main_menu">Main Menu</string>
-    <string name="exit_dialog_title">Are you sure you want to exit?</string>
-    <string name="exit_dialog_message">Your changes will not be saved, and the board will be reset.</string>
+    <string name="confirm_new_game_dialog_title">Are you sure you want to start a new game?</string>
+    <string name="confirm_new_game_dialog_message">This will clear any progress previously made.</string>
     <string name="dialog_accept">Yes</string>
     <string name="dialog_decline">No</string>
     <string name="mistakes">Mistakes: 0/3</string>
@@ -22,6 +22,7 @@
     <string name="color_themes">Color Themes</string>
     <string name="time">0:00</string>
     <string name="tutorial">Tutorial</string>
+    <string name="continue_game">Continue Game</string>
 
     <string name="Sound">Sound</string>
     <string name="vibration">Vibration</string>
