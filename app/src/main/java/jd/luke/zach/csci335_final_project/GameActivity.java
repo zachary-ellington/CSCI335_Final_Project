@@ -1,10 +1,8 @@
 package jd.luke.zach.csci335_final_project;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -28,9 +26,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
 public class GameActivity extends AppCompatActivity {
     Boolean stillGoing = true;
 
@@ -44,7 +39,7 @@ public class GameActivity extends AppCompatActivity {
 
 
     // define puzzles
-    private String[] puzzles = new String[] {
+    private final String[] puzzles = new String[] {
             "490671030000402800500900070104500000009000100030010007000709205000200016920005040",
             "000500002700600800001000300076050000002000000080000700390072600020000090050018030",
             "800201040000000107709006003006340000003060000002000008020903000000080090000007080",
@@ -67,7 +62,7 @@ public class GameActivity extends AppCompatActivity {
             "480300000000000071020000000705000060000200800000000000001076000300000400000050000",
             "000014000030000200070000000000900030601000000000000080200000104000050600000708000"
     };
-    private String[] solutions = new String[] {
+    private final String[] solutions = new String[] {
             "498671532713452869562938471174596328689327154235814697341769285857243916926185743",
             "869534172735621849241789356476253981912847563583196724398472615127365498654918237",
             "835271946264839157719456823976348512583162479142795638428913765357684291691527384",
@@ -291,7 +286,7 @@ public class GameActivity extends AppCompatActivity {
                 button.setForeground(ContextCompat.getDrawable(this, R.drawable.backspace));
                 button.setOnClickListener(v -> {
                     Button cell = getCurrentCell();
-                    if(cell != null && getCurrentPuzzle().charAt(button_map.get(cell).intValue()) == '0') {
+                    if(cell != null && getCurrentPuzzle().charAt(button_map.get(cell)) == '0') {
                         removeInput(cell);
                         playSound(click_sound);
                     }

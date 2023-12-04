@@ -29,12 +29,7 @@
     <string name="howToPlay">How to Play</string>
     <string name="selectCell">First, select an empty cell by tapping on it. Once you have selected a cell, it will be darkened.</string>
     <string name="highlightedCell">Highlighted Cell</string>
-    <string name="placeDigit">
-        Next, place a digit in the selected cell by tapping one of the digit buttons at the bottom.
-        If the digit is incorrect, the digit will be red, and your phone will vibrate.
-        You can erase a digit from a cell by selecting that cell and then tapping the backspace button to the right of the digit buttons.
-        Be careful! Depending on the difficulty level you are playing on, your game will end after a certain number of incorrect digits.
-    </string>
+    <string name="placeDigit">Tap a digit at the bottom to fill a cell. If it\'s wrong, it turns red and your phone vibrates. To erase, choose the cell and hit backspace. Careful, too many mistakes end your game based on difficulty level.</string>
     <string name="continue_game">Continue Game</string>
 
     <string name="Sound">Sound</string>
