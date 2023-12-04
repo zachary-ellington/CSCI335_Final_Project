@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -46,10 +47,22 @@ public class GameOverActivity extends AppCompatActivity {
         boolean did_win = intent.getBooleanExtra(GameOverActivity.EXTRA_WIN, false);
 
         TextView game_over_message_view = findViewById(R.id.game_over_display_message);
-        if (did_win)
+
+        if (did_win) {
             game_over_message_view.setText(R.string.win_message);
-        else
+            final MediaPlayer success_sound = MediaPlayer.create(this, R.raw.success);
+            if(prefs.getBoolean("playSound", true)) {
+                success_sound.start();
+            }
+        } else {
             game_over_message_view.setText(R.string.lose_message);
+            final MediaPlayer failure_sound = MediaPlayer.create(this, R.raw.failure);
+            if(prefs.getBoolean("playSound", true)) {
+                failure_sound.start();
+            }
+        }
+
+
 
         String puzzle_input = intent.getStringExtra(GameOverActivity.EXTRA_PUZZLE_INPUT);
         String puzzle_solution = intent.getStringExtra(GameOverActivity.EXTRA_PUZZLE_SOLUTION);
@@ -99,7 +112,7 @@ public class GameOverActivity extends AppCompatActivity {
 
 
                 if (input_char != '0') {
-                    text.setText("" + input_char);
+                    text.setText(String.valueOf(input_char));
                 }
 
                 if (input_char == original_char) {

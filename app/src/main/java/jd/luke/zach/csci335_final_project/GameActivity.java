@@ -130,9 +130,9 @@ public class GameActivity extends AppCompatActivity {
 
     // initialize colors to use depending on theme
     int primaryColor;
-    int secondaryColor;
-    int accentColor;
-    int backgroundColor;
+//    int secondaryColor;
+//    int accentColor;
+//    int backgroundColor;
     int textColor;
     int errorColor;
 
@@ -609,32 +609,21 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void startGameOver(int result) {
-        if(result == 2) {
-            final MediaPlayer success_sound = MediaPlayer.create(this, R.raw.success);
-            playSound(success_sound);
-        }
-        else {
-            final MediaPlayer failure_sound = MediaPlayer.create(this, R.raw.failure);
-            playSound(failure_sound);
-        }
         editor.remove("mistakes");
         editor.remove("userPuzzle");
         Boolean test = editor.commit();
         Log.d("editorSuccess", String.valueOf(test));
-        // delay next activity so that the sound doesn't get cut off
-        new Handler().postDelayed(() -> {
-            Intent intent = new Intent(this, GameOverActivity.class);
-            intent.putExtra(GameOverActivity.EXTRA_PUZZLE_INPUT, new String(puzzle_input));
-            intent.putExtra(GameOverActivity.EXTRA_PUZZLE_ORIGINAL, getCurrentPuzzle());
-            intent.putExtra(GameOverActivity.EXTRA_PUZZLE_SOLUTION, getCurrentPuzzleSolution());
-            intent.putExtra(GameOverActivity.EXTRA_PUZZLE_PRIMARY_COLOR, primaryColor);
-            intent.putExtra(GameOverActivity.EXTRA_PUZZLE_ERROR_COLOR, errorColor);
-            intent.putExtra(GameOverActivity.EXTRA_PUZZLE_TEXT_COLOR, textColor);
-            intent.putExtra(GameOverActivity.EXTRA_WIN, result == 2);
-            stillGoing = false;
-            startActivity(intent);
-            finish();
-        }, 500);
+        Intent intent = new Intent(this, GameOverActivity.class);
+        intent.putExtra(GameOverActivity.EXTRA_PUZZLE_INPUT, new String(puzzle_input));
+        intent.putExtra(GameOverActivity.EXTRA_PUZZLE_ORIGINAL, getCurrentPuzzle());
+        intent.putExtra(GameOverActivity.EXTRA_PUZZLE_SOLUTION, getCurrentPuzzleSolution());
+        intent.putExtra(GameOverActivity.EXTRA_PUZZLE_PRIMARY_COLOR, primaryColor);
+        intent.putExtra(GameOverActivity.EXTRA_PUZZLE_ERROR_COLOR, errorColor);
+        intent.putExtra(GameOverActivity.EXTRA_PUZZLE_TEXT_COLOR, textColor);
+        intent.putExtra(GameOverActivity.EXTRA_WIN, result == 2);
+        stillGoing = false;
+        startActivity(intent);
+        finish();
 
     }
 
@@ -664,11 +653,11 @@ public class GameActivity extends AppCompatActivity {
         getTheme().resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true);
         primaryColor = typedValue.data;
         getTheme().resolveAttribute(R.attr.customSecondary, typedValue, true);
-        secondaryColor = typedValue.data;
-        getTheme().resolveAttribute(androidx.appcompat.R.attr.colorAccent, typedValue, true);
-        accentColor = typedValue.data;
-        getTheme().resolveAttribute(R.attr.customBackground, typedValue, true);
-        backgroundColor = typedValue.data;
+//        secondaryColor = typedValue.data;
+//        getTheme().resolveAttribute(androidx.appcompat.R.attr.colorAccent, typedValue, true);
+//        accentColor = typedValue.data;
+//        getTheme().resolveAttribute(R.attr.customBackground, typedValue, true);
+//        backgroundColor = typedValue.data;
         getTheme().resolveAttribute(R.attr.customError, typedValue, true);
         errorColor = typedValue.data;
         getTheme().resolveAttribute(R.attr.customText, typedValue, true);
