@@ -130,9 +130,7 @@ public class GameActivity extends AppCompatActivity {
 
     // initialize colors to use depending on theme
     int primaryColor;
-//    int secondaryColor;
-//    int accentColor;
-//    int backgroundColor;
+
     int textColor;
     int errorColor;
 
@@ -349,8 +347,14 @@ public class GameActivity extends AppCompatActivity {
     // listener for being out of the app and preferences change
     SharedPreferences.OnSharedPreferenceChangeListener prefListener = (prefs, key) -> {
         if(key.equals("themePref")) {
-            Log.d("MakingSure", "We recreated GameActivity");
             recreate();
+        }
+        else if(key.equals("playSound")) {
+            for(Button[] button : buttons) {
+                for(Button value : button) {
+                    value.setSoundEffectsEnabled(prefs.getBoolean("playSound", true));
+                }
+            }
         }
     };
     public Button getCurrentCell() {
@@ -653,11 +657,6 @@ public class GameActivity extends AppCompatActivity {
         getTheme().resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true);
         primaryColor = typedValue.data;
         getTheme().resolveAttribute(R.attr.customSecondary, typedValue, true);
-//        secondaryColor = typedValue.data;
-//        getTheme().resolveAttribute(androidx.appcompat.R.attr.colorAccent, typedValue, true);
-//        accentColor = typedValue.data;
-//        getTheme().resolveAttribute(R.attr.customBackground, typedValue, true);
-//        backgroundColor = typedValue.data;
         getTheme().resolveAttribute(R.attr.customError, typedValue, true);
         errorColor = typedValue.data;
         getTheme().resolveAttribute(R.attr.customText, typedValue, true);
