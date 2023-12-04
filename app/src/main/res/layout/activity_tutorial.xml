@@ -74,20 +74,37 @@
         app:layout_constraintWidth_max="300dp" />
 
     <TextView
-        android:id="@+id/placeDigitExplanation"
+        android:id="@+id/placeDigitExplanation1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/placeDigit"
+        android:text="@string/placeDigit1"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tutorial_image_1"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintWidth_max="300dp" />
+    <TextView
+        android:id="@+id/placeDigitExplanation2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/placeDigit2"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/placeDigitExplanation1"
         app:layout_constraintVertical_bias="0.0"
         app:layout_constraintWidth_max="300dp" />
 
@@ -117,7 +134,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tutorial_image_1"
         app:layout_constraintTop_toBottomOf="@+id/selectionExplanation"
-        app:srcCompat="@drawable/tutorialexample2" />
+        app:srcCompat="@drawable/tutorialexample2"
+        tools:ignore="ImageContrastCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
