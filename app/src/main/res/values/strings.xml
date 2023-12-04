@@ -20,6 +20,19 @@
     <string name="mistakes">Mistakes: 0/3</string>
     <string name="time">0:00</string>
     <string name="tutorial">Tutorial</string>
+    <string name="rules">Sudoku Rules</string>
+    <string name="ruleDescription">
+        The goal of Sudoku is to fill a 9 by 9 grid of numbers so that each digit from 1 to 9 appears once in each of the 9 rows, columns, and 3 by 3 regions.
+    </string>
+    <string name="howToPlay">How to Play</string>
+    <string name="selectCell">First, select an empty cell by tapping on it. Once you have selected a cell, it will be darkened.</string>
+    <string name="highlightedCell">Highlighted Cell</string>
+    <string name="placeDigit">
+        Next, place a digit in the selected cell by tapping one of the digit buttons at the bottom.
+        If the digit is incorrect, the digit will be red, and your phone will vibrate.
+        You can erase a digit from a cell by selecting that cell and then tapping the backspace button to the right of the digit buttons.
+        Be careful! Depending on the difficulty level you are playing on, your game will end after a certain number of incorrect digits.
+    </string>
 
     <string name="Sound">Sound</string>
     <string name="vibration">Vibration</string>
