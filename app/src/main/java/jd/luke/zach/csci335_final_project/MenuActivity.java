@@ -3,10 +3,12 @@ package jd.luke.zach.csci335_final_project;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.content.Intent;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class MenuActivity extends AppCompatActivity {
     SharedPreferences prefs;
