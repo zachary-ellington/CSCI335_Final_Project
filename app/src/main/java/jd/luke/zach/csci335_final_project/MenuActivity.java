@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.content.Intent;
 import android.widget.Button;
@@ -16,16 +17,18 @@ public class MenuActivity extends AppCompatActivity {
     SharedPreferences prefs;
 
     public static final String EXTRA_START_NEW_GAME = "com.jd.luke.zach.csci335_final_project";
+    Button continue_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        setTheme(prefs.getInt("themePref", R.style.Base_Theme_CSCI335_Final_Project));
         setContentView(R.layout.activity_menu);
 
-        Button continue_button = findViewById(R.id.continue_button);
+        prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        setTheme(prefs.getInt("themePref", R.style.Base_Theme_CSCI335_Final_Project));
+        continue_button = findViewById(R.id.continue_button);
         String user_puzzle = prefs.getString("userPuzzle", "none");
+        Log.d("IsItNone?", user_puzzle);
         if (!user_puzzle.equals("none")) {
             continue_button.setEnabled(true);
         }
@@ -36,8 +39,6 @@ public class MenuActivity extends AppCompatActivity {
 
         if (!user_puzzle.equals("none")) {
             MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(this);
-
-
 
             dialog.setTitle(getResources().getString(R.string.confirm_new_game_dialog_title));
             dialog.setMessage(getResources().getString(R.string.confirm_new_game_dialog_message));
@@ -82,13 +83,25 @@ public class MenuActivity extends AppCompatActivity {
     SharedPreferences.OnSharedPreferenceChangeListener prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-            recreate(); // or update the UI elements as needed
+            if(key.equals("themePref")) {
+                recreate(); // or update the UI elements as needed
+            }
+            // recreate when userPuzzle gets removed
+            if(!prefs.contains(key)) {
+                Log.d("PrefsContains", "YAY");
+                continue_button.setEnabled(false);
+                recreate();
+            }
+            if(key.equals("userPuzzle")) {
+                continue_button.setEnabled(true);
+            }
         }
     };
 
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("Death", prefs.getString("userPuzzle", "We Resumed Menu"));
         prefs.unregisterOnSharedPreferenceChangeListener(prefListener);
     }
 

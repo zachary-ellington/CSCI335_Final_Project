@@ -47,6 +47,9 @@ public class SettingsActivity extends AppCompatActivity {
                     difficultySpinner);
             diffDropdown.setText(prefs.getString("diffPref", "Easy")); // set the default text on entering
             diffDropdown.setAdapter(adapter1);
+            if(!prefs.getString("userPuzzle", "none").equals("none")) {
+                diffDropdown.setEnabled(false);
+            }
             diffDropdown.setOnItemClickListener((parent, view, position, id) -> {
                 String selectedItem = adapter1.getItem(position);
                 editor.putString("diffPref", selectedItem);

@@ -13,6 +13,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -89,7 +90,7 @@ public class GameActivity extends AppCompatActivity {
     private Button currentCell; // cell that the user last clicked on
     public int mistakes;
     int puzzle_in_use_index = 0;
-    int mistake_limit = 3;
+    int mistake_limit ;
 
     HashMap<Button, Integer> button_map = new HashMap<>();
 
@@ -136,6 +137,13 @@ public class GameActivity extends AppCompatActivity {
         editor = prefs.edit();
         setTheme(prefs.getInt("themePref", R.style.Base_Theme_CSCI335_Final_Project));
 
+        boolean should_start_new_game = intent.getBooleanExtra(MenuActivity.EXTRA_START_NEW_GAME, true);
+        if(should_start_new_game) {
+            editor.remove("mistakes");
+            editor.remove("userPuzzle");
+            editor.commit();
+        }
+
         setContentView(R.layout.activity_game);
         //refresh mistake count
         mistakes = prefs.getInt("mistakes", 0);
@@ -151,6 +159,9 @@ public class GameActivity extends AppCompatActivity {
         else {
             mistake_limit = 2;
         }
+        mistake_counter = findViewById(R.id.mistakes);
+        mistake_counter.setText(MessageFormat.format("Mistakes: {0}/{1}", mistakes, mistake_limit));
+
 
         // make the colors happen
         defineColors();
@@ -158,8 +169,6 @@ public class GameActivity extends AppCompatActivity {
         // create media player for button clicks
         final MediaPlayer click_sound = MediaPlayer.create(this, R.raw.ping);
         timerTextView = findViewById(R.id.timer);
-        // get mistake counter id
-        mistake_counter = findViewById(R.id.mistakes);
 
         // toolbar stuff
         Toolbar myToolbar = findViewById(R.id.toolbar);
@@ -269,7 +278,6 @@ public class GameActivity extends AppCompatActivity {
         startTime = System.currentTimeMillis();
         timerHandler.postDelayed(timerRunnable, 0); // start timer
 
-        boolean should_start_new_game = intent.getBooleanExtra(MenuActivity.EXTRA_START_NEW_GAME, true);
         if (should_start_new_game) {
             fillBoard("none");
         } else {
@@ -282,18 +290,6 @@ public class GameActivity extends AppCompatActivity {
     // *************** END OF onCreate() **************************************************************************
     // ************************************************************************************************************
 
-    /*
-     function activates after going out of activity, creating a string for reconstruction of
-     user board in onCreate().
-     key:
-     <number>n = cell before is empty
-     <number>c = cell before is correct
-     <number>i = cell before is incorrect
-     <number>d = cell is default in puzzle
-     example: 0n0n3c4d5c0n6i
-     creates a top row of:
-     ["", "", "3" (user inputted, correct), "4" (part of the initial puzzle), "5" (user inputted, correct), "", "6" (user defined, incorrect), ...]
-     */
 
     //save the board on pause
     @Override
@@ -309,8 +305,10 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         }
-        editor.putString("userPuzzle", res);
-        editor.commit();
+        if(!isFinishing()) {
+            editor.putString("userPuzzle", res);
+            editor.commit();
+        }
         prefs.registerOnSharedPreferenceChangeListener(prefListener);
         super.onPause();
     }
@@ -325,6 +323,7 @@ public class GameActivity extends AppCompatActivity {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
             if(key.equals("themePref")) {
+                Log.d("MakingSure", "We recreated GameActivity");
                 recreate();
             }
         }
@@ -401,6 +400,8 @@ public class GameActivity extends AppCompatActivity {
                     final Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     doVibrate(vibrator, 250);
                     mistakes++;
+                    editor.putInt("mistakes", mistakes);
+                    editor.apply();
                     if(checkEndGameStatus() != 1) {
                         final MediaPlayer error_sound = MediaPlayer.create(this, R.raw.error);
                         playSound(error_sound);
@@ -550,6 +551,7 @@ public class GameActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.action_settings) {
             // Handle the settings action
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
             return true;
         } else if (item.getItemId() == R.id.action_tutorial){
             // Handle the tutorial action
@@ -585,6 +587,10 @@ public class GameActivity extends AppCompatActivity {
             final MediaPlayer failure_sound = MediaPlayer.create(this, R.raw.failure);
             playSound(failure_sound);
         }
+        editor.remove("mistakes");
+        editor.remove("userPuzzle");
+        Boolean test = editor.commit();
+        Log.d("editorSuccess", String.valueOf(test));
         // delay next activity so that the sound doesn't get cut off
         new Handler().postDelayed(() -> {
             Intent intent = new Intent(this, GameOverActivity.class);
