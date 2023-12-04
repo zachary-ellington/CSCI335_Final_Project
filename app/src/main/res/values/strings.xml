@@ -22,14 +22,15 @@
     <string name="color_themes">Color Themes</string>
     <string name="time">0:00</string>
     <string name="tutorial">Tutorial</string>
-    <string name="rules">Sudoku Rules</string>
+    <string name="rules">Sudoku Goal</string>
     <string name="ruleDescription">
-        The goal of Sudoku is to fill a 9 by 9 grid of numbers so that each digit from 1 to 9 appears once in each of the 9 rows, columns, and 3 by 3 regions.
+        Fill a 9x9 number grid so each digit from 1 to 9 appears once in each of the 9 rows, columns, and 3x3 regions.
     </string>
     <string name="howToPlay">How to Play</string>
     <string name="selectCell">First, select an empty cell by tapping on it. Once you have selected a cell, it will be darkened.</string>
     <string name="highlightedCell">Highlighted Cell</string>
-    <string name="placeDigit">Tap a digit at the bottom to fill a cell. If it\'s wrong, it turns red and your phone vibrates. To erase, choose the cell and hit backspace. Careful, too many mistakes end your game based on difficulty level.</string>
+    <string name="placeDigit1">Tap a digit at the bottom to fill a cell. If it\'s wrong, it turns red and your phone vibrates.</string>
+    <string name="placeDigit2">To erase, choose the cell and hit backspace. Careful, too many mistakes end your game based on difficulty level.</string>
     <string name="continue_game">Continue Game</string>
     <string name="example1SD">Example of highlighted cell </string>
     <string name="example2SD">Example of right and wrong answers</string>

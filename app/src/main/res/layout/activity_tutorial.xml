@@ -26,9 +26,11 @@
         android:text="@string/rules"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/rulesDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
         android:id="@+id/rulesDescription"
@@ -39,10 +41,12 @@
         android:layout_marginEnd="16dp"
         android:text="@string/ruleDescription"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/howToPlay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rulesTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/rulesTitle"
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
         android:id="@+id/howToPlay"
@@ -52,10 +56,12 @@
         android:text="@string/howToPlay"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/selectionExplanation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rulesDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/rulesDescription"
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
         android:id="@+id/selectionExplanation"
@@ -66,46 +72,70 @@
         android:layout_marginEnd="16dp"
         android:text="@string/selectCell"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/howToPlay" />
+        app:layout_constraintTop_toBottomOf="@+id/howToPlay"
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
-        android:id="@+id/placeDigitExplanation"
-        android:layout_width="wrap_content"
+        android:id="@+id/placeDigitExplanation1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="20dp"
-        android:text="@string/placeDigit"
+        android:text="@string/placeDigit1"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/placeDigitExplanation2"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/placeDigitExplanation2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/placeDigit2"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/placeDigitExplanation1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintVertical_bias="0.5" />
 
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="53dp"
+        android:contentDescription="@string/example1SD"
+        app:layout_constraintBottom_toTopOf="@+id/placeDigitExplanation2"
         app:layout_constraintEnd_toStartOf="@+id/imageView5"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectionExplanation"
-        app:srcCompat="@drawable/tutorialexample1"
-        android:contentDescription="@string/example1SD" />
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/tutorialexample1" />
 
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="53dp"
+        android:contentDescription="@string/example2SD"
+        app:layout_constraintBottom_toTopOf="@+id/placeDigitExplanation2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toBottomOf="@+id/selectionExplanation"
+        app:layout_constraintVertical_bias="0.386"
         app:srcCompat="@drawable/tutorialexample2"
-        android:contentDescription="@string/example2SD" />
+        tools:ignore="ImageContrastCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
