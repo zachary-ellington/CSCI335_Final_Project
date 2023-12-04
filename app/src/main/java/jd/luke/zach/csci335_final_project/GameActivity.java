@@ -1,7 +1,9 @@
 package jd.luke.zach.csci335_final_project;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +26,7 @@ import androidx.core.content.ContextCompat;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Objects;
 
 public class GameActivity extends AppCompatActivity {
@@ -116,7 +119,7 @@ public class GameActivity extends AppCompatActivity {
             int minutes = seconds / 60;
             seconds = seconds % 60;
 
-            timerTextView.setText(String.format("%d:%02d", minutes, seconds));
+            timerTextView.setText(String.format(Locale.getDefault(), "%d:%02d", minutes, seconds));
 
             timerHandler.postDelayed(this, 500);
         }
@@ -199,7 +202,7 @@ public class GameActivity extends AppCompatActivity {
         // start defining board
         LinearLayout sudokuGrid = findViewById(R.id.sudoku_grid);
         // gives the whole board a thicker outer border
-        sudokuGrid.setBackground(getDrawable(R.drawable.grid_border));
+        sudokuGrid.setBackground(AppCompatResources.getDrawable(this, R.drawable.grid_border));
         sudokuGrid.setPadding(7, 7, 7, 7);
         for (int row = 0; row < 9; row++)
         {
@@ -286,6 +289,10 @@ public class GameActivity extends AppCompatActivity {
                 button.setForeground(ContextCompat.getDrawable(this, R.drawable.backspace));
                 button.setOnClickListener(v -> {
                     Button cell = getCurrentCell();
+                    if(button_map.get(cell) == null) {
+                        Log.d("Error", "Error, null reference");
+                        return;
+                    }
                     if(cell != null && getCurrentPuzzle().charAt(button_map.get(cell)) == '0') {
                         removeInput(cell);
                         playSound(click_sound);
@@ -328,13 +335,10 @@ public class GameActivity extends AppCompatActivity {
         prefs.unregisterOnSharedPreferenceChangeListener(prefListener);
     }
     // listener for being out of the app and preferences change
-    SharedPreferences.OnSharedPreferenceChangeListener prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-        @Override
-        public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-            if(key.equals("themePref")) {
-                Log.d("MakingSure", "We recreated GameActivity");
-                recreate();
-            }
+    SharedPreferences.OnSharedPreferenceChangeListener prefListener = (prefs, key) -> {
+        if(key.equals("themePref")) {
+            Log.d("MakingSure", "We recreated GameActivity");
+            recreate();
         }
     };
     public Button getCurrentCell() {
@@ -344,6 +348,7 @@ public class GameActivity extends AppCompatActivity {
         currentCell = btn;
     }
 
+    @SuppressLint("SetTextI18n")
     public void fillBoard(String userpuzzle) {
         if(userpuzzle.equals("none")) {
             String current_puzzle = getCurrentPuzzle();
@@ -361,12 +366,11 @@ public class GameActivity extends AppCompatActivity {
             }
         }
         else {
-            String current_puzzle = userpuzzle;
             puzzle_input = userpuzzle.toCharArray();
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     int index = i * 9 + j;
-                    char curr_char = current_puzzle.charAt(index);
+                    char curr_char = userpuzzle.charAt(index);
                     if (curr_char != '0' && getCurrentPuzzleSolution().charAt(index) == curr_char
                             && getCurrentPuzzle().charAt(index) == '0') {
                         buttons[i][j].setText("" + curr_char);
@@ -393,7 +397,7 @@ public class GameActivity extends AppCompatActivity {
         Button cell = getCurrentCell();
         if (cell == null)
             return;
-        if(getCurrentPuzzle().charAt(button_map.get(cell).intValue()) == '0') {  // this if statement avoids replacing fixed puzzle numbers
+        if(getCurrentPuzzle().charAt(button_map.get(cell)) == '0') {  // this if statement avoids replacing fixed puzzle numbers
             if (cell.getText().equals(btn.getText())) { // allow for removal of numbers
                 removeInput(cell);
             } else {
@@ -422,7 +426,7 @@ public class GameActivity extends AppCompatActivity {
                     }
                     darkenButton(getCurrentCell(), 10);
                 }
-                puzzle_input[button_map.get(cell).intValue()] = btn.getText().charAt(0);
+                puzzle_input[button_map.get(cell)] = btn.getText().charAt(0);
                 cell.setText(btn.getText());
             }
         }
@@ -453,7 +457,7 @@ public class GameActivity extends AppCompatActivity {
                 }
                 darkenButton(getCurrentCell(), 10);
             }
-            puzzle_input[button_map.get(cell).intValue()] = '0';
+            puzzle_input[button_map.get(cell)] = '0';
             cell.setText("");
 //        }
     }

@@ -3,7 +3,6 @@ package jd.luke.zach.csci335_final_project;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -86,12 +85,7 @@ public class MenuActivity extends AppCompatActivity {
 
 
     // from here down is for recreating the activity to mesh with changes made in settings
-    SharedPreferences.OnSharedPreferenceChangeListener prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-        @Override
-        public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-            recreate();
-        }
-    };
+    SharedPreferences.OnSharedPreferenceChangeListener prefListener = (prefs, key) -> recreate();
 
     @Override
     protected void onResume() {

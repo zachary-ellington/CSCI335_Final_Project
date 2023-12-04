@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -47,8 +49,10 @@ public class SettingsActivity extends AppCompatActivity {
                     difficultySpinner);
             diffDropdown.setText(prefs.getString("diffPref", "Easy")); // set the default text on entering
             diffDropdown.setAdapter(adapter1);
+            TextInputLayout dropdownHolder = findViewById(R.id.difficulty_dropdown_holder);
             if(!prefs.getString("userPuzzle", "none").equals("none")) {
                 diffDropdown.setEnabled(false);
+                dropdownHolder.setEnabled(false);
             }
             diffDropdown.setOnItemClickListener((parent, view, position, id) -> {
                 String selectedItem = adapter1.getItem(position);

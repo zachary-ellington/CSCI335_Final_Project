@@ -1,16 +1,16 @@
 package jd.luke.zach.csci335_final_project;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,6 +29,7 @@ public class GameOverActivity extends AppCompatActivity {
     public static final String EXTRA_PUZZLE_TEXT_COLOR = "jd.luke.zach.csci335_final_project.GameOverActivity.text_color";
     public static final String EXTRA_WIN = "jd.luke.zach.csci335_final_project.GameOverActivity.win";
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
@@ -60,7 +61,7 @@ public class GameOverActivity extends AppCompatActivity {
 
         LinearLayout sudokuGrid = findViewById(R.id.game_over_board);
         // gives the whole board a thicker outer border
-        sudokuGrid.setBackground(getDrawable(R.drawable.grid_border));
+        sudokuGrid.setBackground(AppCompatResources.getDrawable(this, R.drawable.grid_border));
         sudokuGrid.setPadding(7, 7, 7, 7);
         for (int row = 0; row < 9; row++)
         {
@@ -89,8 +90,11 @@ public class GameOverActivity extends AppCompatActivity {
                     text.setBackground(ContextCompat.getDrawable(this, R.drawable.border));
                 }
 
+                assert puzzle_input != null;
                 char input_char = puzzle_input.charAt(row * 9 + col);
+                assert puzzle_solution != null;
                 char solution_char = puzzle_solution.charAt(row * 9 + col);
+                assert puzzle_original != null;
                 char original_char = puzzle_original.charAt(row * 9 + col);
 
 
