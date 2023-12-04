@@ -31,6 +31,7 @@ public class GameActivity extends AppCompatActivity {
 
     Button[][] buttons = new Button[9][9];
     SharedPreferences prefs; // user preferences
+    SharedPreferences.Editor editor;
 
     // define puzzles
     String[] puzzles = new String[] {
@@ -99,7 +100,7 @@ public class GameActivity extends AppCompatActivity {
 
     //runs without a timer by reposting this handler at the end of the runnable
     Handler timerHandler = new Handler();
-    Runnable timerRunnable = new Runnable() {
+    final Runnable timerRunnable = new Runnable() {
 
         @Override
         public void run() {
@@ -126,10 +127,23 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // define user preferences
         prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        editor = prefs.edit();
         setTheme(prefs.getInt("themePref", R.style.Base_Theme_CSCI335_Final_Project));
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        // set difficulty
+        String difficulty = prefs.getString("diffPref", "Easy");
+        if(difficulty.equals("Easy")) {
+            mistake_limit = 5;
+        }
+        else if(difficulty.equals("Medium")) {
+            mistake_limit = 3;
+        }
+        else {
+            mistake_limit = 2;
+        }
 
         // make the colors happen
         defineColors();
@@ -247,28 +261,58 @@ public class GameActivity extends AppCompatActivity {
         }
         startTime = System.currentTimeMillis();
         timerHandler.postDelayed(timerRunnable, 0); // start timer
-        fillBoard();
+        fillBoard(prefs.getString("userPuzzle", "none"));
     }
 
     // ************************************************************************************************************
     // *************** END OF onCreate() **************************************************************************
     // ************************************************************************************************************
 
-    // function activates after going out of activity, creating a string for reconstruction of
-    // user board in onCreate().
-    // example: 0n0n3u4d5u0n6e
-    // creates a top row of:
-    // ["", "", "3" (user inputted, correct), "4" (part of the initial puzzle), "5" (user defined), "", "6" (user defined, incorrect)]
+    /*
+     function activates after going out of activity, creating a string for reconstruction of
+     user board in onCreate().
+     key:
+     <number>n = cell before is empty
+     <number>c = cell before is correct
+     <number>i = cell before is incorrect
+     <number>d = cell is default in puzzle
+     example: 0n0n3c4d5c0n6i
+     creates a top row of:
+     ["", "", "3" (user inputted, correct), "4" (part of the initial puzzle), "5" (user inputted, correct), "", "6" (user defined, incorrect), ...]
+     */
+
+    //save the board on pause
     @Override
     public void onPause() {
         String res = "";
         for(Button[] button : buttons) {
             for(Button value : button) {
-
+                if(value.getText().equals("")) {
+                    res += "0";
+                }
+                else {
+                    res += value.getText();
+                }
             }
         }
+        editor.putString("userPuzzle", res);
+        editor.commit();
+        prefs.registerOnSharedPreferenceChangeListener(prefListener);
         super.onPause();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        prefs.unregisterOnSharedPreferenceChangeListener(prefListener);
+    }
+    // listener for being out of the app and preferences change
+    SharedPreferences.OnSharedPreferenceChangeListener prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+            recreate(); // or update the UI elements as needed
+        }
+    };
     public Button getCurrentCell() {
         return currentCell;
     }
@@ -276,17 +320,43 @@ public class GameActivity extends AppCompatActivity {
         currentCell = btn;
     }
 
-    public void fillBoard() {
-        String current_puzzle = puzzles[puzzle_in_use_index];
-        for(int i = 0; i < 9; i++) {
-            for(int j = 0; j < 9; j++) {
-                char curr_char = current_puzzle.charAt(i * 9 + j);
-                if(curr_char != '0') {
-                    buttons[i][j].setText("" + curr_char);
-                    buttons[i][j].setTextColor(textColor);
+    public void fillBoard(String userpuzzle) {
+        if(userpuzzle.equals("none")) {
+            String current_puzzle = puzzles[puzzle_in_use_index];
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    char curr_char = current_puzzle.charAt(i * 9 + j);
+                    if (curr_char != '0') {
+                        buttons[i][j].setText("" + curr_char);
+                        buttons[i][j].setTextColor(textColor);
+                    } else {
+                        buttons[i][j].setText("");
+                    }
                 }
-                else {
-                    buttons[i][j].setText("");
+            }
+        }
+        else {
+            String current_puzzle = userpuzzle;
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    int index = i * 9 + j;
+                    char curr_char = current_puzzle.charAt(index);
+                    if (curr_char != '0' && solutions[puzzle_in_use_index].charAt(index) == curr_char
+                            && puzzles[puzzle_in_use_index].charAt(index) == '0') {
+                        buttons[i][j].setText("" + curr_char);
+                        buttons[i][j].setTextColor(primaryColor);
+                    } else if (curr_char != '0' && solutions[puzzle_in_use_index].charAt(index) != curr_char
+                            && puzzles[puzzle_in_use_index].charAt(index) == '0'){
+                        buttons[i][j].setText("" + curr_char);
+                        buttons[i][j].setTextColor(errorColor);
+                    } else if (curr_char != '0' && solutions[puzzle_in_use_index].charAt(index) == curr_char
+                            && puzzles[puzzle_in_use_index].charAt(index) != '0') {
+                        buttons[i][j].setText("" + curr_char);
+                        buttons[i][j].setTextColor(textColor);
+                    }
+                    else  {
+                        buttons[i][j].setText("");
+                    }
                 }
             }
         }
