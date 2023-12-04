@@ -22,10 +22,11 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
-
         prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         setTheme(prefs.getInt("themePref", R.style.Base_Theme_CSCI335_Final_Project));
+        setContentView(R.layout.activity_menu);
+
+
         continue_button = findViewById(R.id.continue_button);
         String user_puzzle = prefs.getString("userPuzzle", "none");
         Log.d("IsItNone?", user_puzzle);
@@ -83,18 +84,7 @@ public class MenuActivity extends AppCompatActivity {
     SharedPreferences.OnSharedPreferenceChangeListener prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-            if(key.equals("themePref")) {
-                recreate(); // or update the UI elements as needed
-            }
-            // recreate when userPuzzle gets removed
-            if(!prefs.contains(key)) {
-                Log.d("PrefsContains", "YAY");
-                continue_button.setEnabled(false);
-                recreate();
-            }
-            if(key.equals("userPuzzle")) {
-                continue_button.setEnabled(true);
-            }
+            recreate();
         }
     };
 
