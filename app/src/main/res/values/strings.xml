@@ -18,6 +18,8 @@
     <string name="dialog_accept">Yes</string>
     <string name="dialog_decline">No</string>
     <string name="mistakes">Mistakes: 0/3</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="color_themes">Color Themes</string>
     <string name="time">0:00</string>
     <string name="tutorial">Tutorial</string>
 

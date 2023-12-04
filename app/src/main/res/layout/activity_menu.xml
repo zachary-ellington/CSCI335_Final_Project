@@ -11,6 +11,7 @@
     <Button
         android:id="@+id/button"
         style="@style/primary_button"
+        android:layout_width="320dp"
         android:onClick="startGame"
         android:stateListAnimator="@animator/button_animate"
         android:text="@string/start_game"
@@ -22,8 +23,9 @@
         app:layout_constraintVertical_bias="0.1" />
 
     <Button
-        style = "@style/outline_button"
         android:id="@+id/button2"
+        style="@style/outline_button"
+        android:layout_width="320dp"
         android:layout_marginTop="20dp"
         android:onClick="startSettings"
         android:text="@string/settings"
@@ -32,8 +34,9 @@
         app:layout_constraintTop_toBottomOf="@+id/button" />
 
     <Button
-        style = "@style/outline_button"
         android:id="@+id/button3"
+        style="@style/outline_button"
+        android:layout_width="320dp"
         android:layout_marginTop="20dp"
         android:onClick="startTutorial"
         android:text="@string/tutorial"

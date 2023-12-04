@@ -21,22 +21,22 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/difficulty_dropdown_holder"
         style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
-        android:layout_width="0dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:hint="Difficulty"
-        android:layout_marginBottom="100dp"
-        app:startIconContentDescription="@string/settings"
         android:layout_marginHorizontal="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/themes_dropdown_holder"
+        android:layout_marginBottom="64dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        >
+        app:layout_constraintBottom_toTopOf="@+id/themes_dropdown_holder"
+        app:startIconContentDescription="@string/settings"
+        tools:layout_editor_absoluteY="128dp">
 
 
         <AutoCompleteTextView
             android:id="@+id/difficulty_dropdown"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:hint="@string/difficulty"
             android:backgroundTint="?attr/customSecondary"
             android:inputType="none"
             android:textCursorDrawable="@null" />
@@ -45,22 +45,23 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/themes_dropdown_holder"
         style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
-        android:layout_width="0dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:hint="Color Themes"
-        android:layout_marginBottom="100dp"
-        app:startIconContentDescription="@string/settings"
         android:layout_marginHorizontal="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/SoundSwitch"
+        android:layout_marginBottom="64dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        >
+        app:startIconContentDescription="@string/settings"
+        app:layout_constraintBottom_toTopOf="@+id/SoundSwitch"
+        tools:layout_editor_absoluteY="283dp">
 
 
         <AutoCompleteTextView
             android:id="@+id/themes_dropdown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/color_themes"
+
             android:backgroundTint="?attr/customSecondary"
             android:inputType="none"
             android:textCursorDrawable="@null" />
@@ -71,7 +72,7 @@
         android:id="@+id/SoundSwitch"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="64dp"
         android:contentDescription="@string/Sound"
         android:text="@string/Sound"
         app:layout_constraintBottom_toTopOf="@+id/VibrationSwitch"
@@ -82,11 +83,10 @@
         android:id="@+id/VibrationSwitch"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginBottom="148dp"
+        android:layout_marginBottom="120dp"
         android:contentDescription="@string/vibration"
         android:text="@string/vibration"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/SoundSwitch" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
